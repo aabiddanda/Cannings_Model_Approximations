@@ -33,7 +33,7 @@ $$
 \begin{aligned}
 	p^{(t)}_{n,n-1} &= \frac{n}{N_{t+1}}\cdot \frac{(n-1)}{N_{t+1}}\\
 	&= \frac{n(n-1)}{N^2_{t+1}}\\
-	p^{(t)}_{n,n} &= 1 - p^{(t)}_{n,m}\\
+	p^{(t)}_{n,n} &= 1 - p^{(t)}_{n,n-1}\\
 	&= 1 - \frac{n(n-1)}{N^2_{t+1}}\\
 \end{aligned}
 $$
@@ -44,7 +44,7 @@ We can compactly represent this function as:
 	p^{(t)}_{n,m} = 
 	\begin{cases} 1 - \frac{n(n-1)}{N^2_{t+1}}  & \text{if $m = n$,}
 		\\
-		\frac{n(n-1)}{N^2_{t+1}} &\text{if $ m = (n-1)$,}
+		\frac{n(n-1)}{N^2_{t+1}} &\text{if $ m = n - 1$,}
 		\\
 		0 &\text{else.}
 	\end{cases}
@@ -54,7 +54,7 @@ We note that as $t$ is increasing, we are moving farther back in time (e.g. the 
 
 This is a very simplistic representation of the Moran model and can be extended to support a higher birth rate (which can potentially yield multiple mergers). We plan to discuss these more general forms in greater detail towards the end of the analysis. 
 
-We can then extend this to $p^{(t')}_{n,m}$, or the probability that $n$ samples in generation $t$ have $m$  ancestors in generation $t'$. Due to the construction of the Moran Model, we are required to bound the quantity $m$ such that $n-t' \leq m \leq n$, otherwise the probability is $0$. Thus we obtain the following recursion :
+We can then extend this to $p^{(t, t')}_{n,m}$, or the probability that $n$ samples in generation $t$ have $m$  ancestors in generation $t'$. Due to the construction of the Moran Model, we are required to bound the quantity $m$ such that $n-t' \leq m \leq n$, otherwise the probability is $0$. Thus we obtain the following recursion :
 
 $$
 \begin{aligned}
@@ -104,10 +104,9 @@ We will further define $\gamma^{(t)}_{a,b}$ as a random variable representing th
 \begin{center}
 \begin{figure}[!h]
 	\includegraphics[scale=0.85]{../../plots/figure1}
-	\caption{Probability distribution of having $m$ ancestors after $10000$ Moran generations for $n = 200$ in a constant haploid population size of $N = 20000$. We can see that there is a non-negligible amount of probability with losing more than a single lineage in this time. However, we should note that the rescaling of time in this case is quite important.}
+	\caption{Probability distribution of having $m$ ancestors after $20000$ Moran generations (equivalent to 1 DTWF generation in this case) for $n = 250$ in a constant haploid population size of $N = 20000$. We can see that there is a non-negligible amount of probability with losing more than a single lineage in this time.}
 \end{figure}
 \end{center}
-
 
 
 \end{document}

@@ -1,7 +1,12 @@
 
-all:
+doc:
 		xelatex moran_derivation	
 		xelatex moran_derivation
+
+figure1:
+	python3 ../../src/viz.py -figure1 -o ../../plots/figure1.eps
+
+
 
 
 clean:
