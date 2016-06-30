@@ -86,15 +86,13 @@ Now that we have the following we can think of time $t$ in much larger steps (e.
 	 \mathbb{E}[A^M_n(t)] = \sum^n_{m=1} m \mathbb{P}[A^M_n (t) = m]
  \end{equation*}
 
-\subsubsection{Sample Frequency Spectrum under the Moran Model}
+%\subsubsection{Sample Frequency Spectrum under the Moran Model}
 
-We would also like to obtain the expected Site Frequency Spectrum (SFS) under the Moran Model. We will use the same notation and general derivation as Bhaskar et al.
+%We would also like to obtain the expected Site Frequency Spectrum (SFS) under the Moran Model. We will use the same notation and general derivation as Bhaskar et al.
 
-We set the entry $\tau_{n,k}$ as the number of sites at which $k$ individuals carry the derived allele and $n-k$ individuals carry the ancestral allele. Thus we can then define the entire SFS as $\tau_n = (\tau_{n,1}, ..., \tau_{n,n-1})$. 
+%We set the entry $\tau_{n,k}$ as the number of sites at which $k$ individuals carry the derived allele and $n-k$ individuals carry the ancestral allele. Thus we can then define the entire SFS as $\tau_n = (\tau_{n,1}, ..., \tau_{n,n-1})$. 
 
-We will further define $\gamma^{(t)}_{a,b}$ as a random variable representing the total branch length of a subtree that subtends a set of $a$ individuals in a larger set of $a+b$ individuals. 
-
-
+%We will further define $\gamma^{(t)}_{a,b}$ as a random variable representing the total branch length of a subtree that subtends a set of $a$ individuals in a larger set of $a+b$ individuals. 
 
 
 \newpage
@@ -102,19 +100,10 @@ We will further define $\gamma^{(t)}_{a,b}$ as a random variable representing th
 \subsection{Preliminary Figures}
 
 \begin{center}
-\begin{figure}[!h]
-	\includegraphics[scale=0.85]{../plots/figure1}
-	\caption{Probability distribution of having $m$ ancestors after $20000$ Moran generations (equivalent to 1 DTWF generation in this case) for $n = 250$ in a constant haploid population size of $N = 20000$. We can see that there is a non-negligible amount of probability with losing more than a single lineage in this time.}
-\end{figure}
-\end{center}
-
-
-\begin{center}
 	\begin{figure}[!h]
-		\includegraphics[scale=0.85]{../plots/figure2}
-		\caption{Test}
+		\includegraphics[scale=0.85]{../plots/figure1}
+		\caption{Comparing the distribution of parental lineages in the Moran Model and the Discrete-Time Wright-Fisher (DTWF) model. For both scenarios we maintained a constant population size of $N = 20000$ and a sample size of $n=250$. The results in the right pane correspond exactly to Supplementary Figure 2 in Bhaskar et al. We must note that in order to compare the Moran model to the DTWF we report the results after $20000/2 = 10000$ Moran generations in the left pane to equal a single DTWF generation. This scaling result is from Wakeley [CITE]. We can see that the probability distributions here are identical.}
 	\end{figure}
 \end{center}
-
 
 \end{document}
