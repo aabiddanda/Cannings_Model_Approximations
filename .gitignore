@@ -2,3 +2,7 @@ src/*eps
 src/build/
 src/*.so
 src/__pycache__/
+doc/*.log
+doc/*.aux
+doc/*.pdf
+
