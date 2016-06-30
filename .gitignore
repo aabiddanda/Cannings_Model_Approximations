@@ -1,0 +1,4 @@
+src/*eps
+src/build/
+src/*.so
+src/__pycache__/

@@ -4,9 +4,10 @@ doc:
 		xelatex moran_derivation
 
 figure1:
-	python3 ../../src/viz.py -figure1 -o ../../plots/figure1.eps
+	python3 ../src/viz.py -figure1 -o ../plots/figure1.eps
 
-
+figure2:
+	python3 ../src/viz.py -figure2 -o ../plots/figure2.eps
 
 
 clean:

@@ -39,7 +39,7 @@ def prob_lineages_step(n, t, N , acc=None):
         acc[n] = 1
     if len(acc) != (n+1):
        raise ValueError('dimension mismatch in probability vector') 
-    for i in range(0,t):
+    for i in range(t):
         new_acc = [0 for x in range(0,n+1)]
         for j in range(0, n+1):
             if j == n:
