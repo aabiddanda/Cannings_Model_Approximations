@@ -86,6 +86,23 @@ Now that we have the following we can think of time $t$ in much larger steps (e.
 	 \mathbb{E}[A^M_n(t)] = \sum^n_{m=1} m \mathbb{P}[A^M_n (t) = m]
  \end{equation*}
 
+\subsubsection*{Expected Number of Lineages Under the Coalescent}
+
+We use the moment-based method of Tavare [CITE] in order to compute the expected number of lineages as a function of time (with no mutation) under the Kingman coalescent:
+
+\begin{equation*}
+	\mathbb{E}[A^C_n(t)] = \sum^n_{i=1} e^{-\binom{i}{2}\Omega(t)} (2i - 1) \frac{n_{(i)}}{n^{(i)}} 
+\end{equation*}
+
+Where $n_{(i)}$ and $n^{(i)}$ are the falling and rising factorials respectively. Note that the $t$ measured here is in ``coalescent time'' and will need to be rescaled appropriately when considering the discrete generations that we have for our model. We can define the following function to denote the rescaling of time (following Bhaskar et al) :
+
+\begin{equation*}
+	\Omega(t) = \begin{cases}
+		\int_{0}^t \frac{N_0}{N_\tau} d\tau &\text{under the DTWF}\\[2ex]
+		\int_{0}^t \frac{N_0^2/2}{N_\tau^2/2} d\tau  &\text{under the Moran Model}
+	\end{cases}
+\end{equation*}
+
 %\subsubsection{Sample Frequency Spectrum under the Moran Model}
 
 %We would also like to obtain the expected Site Frequency Spectrum (SFS) under the Moran Model. We will use the same notation and general derivation as Bhaskar et al.
@@ -94,7 +111,6 @@ Now that we have the following we can think of time $t$ in much larger steps (e.
 
 %We will further define $\gamma^{(t)}_{a,b}$ as a random variable representing the total branch length of a subtree that subtends a set of $a$ individuals in a larger set of $a+b$ individuals. 
 
-
 \newpage
 
 \subsection{Preliminary Figures}
@@ -102,7 +118,7 @@ Now that we have the following we can think of time $t$ in much larger steps (e.
 \begin{center}
 	\begin{figure}[!h]
 		\includegraphics[scale=0.85]{../plots/figure1}
-		\caption{Comparing the distribution of parental lineages in the Moran Model and the Discrete-Time Wright-Fisher (DTWF) model. For both scenarios we maintained a constant population size of $N = 20000$ and a sample size of $n=250$. The results in the right pane correspond exactly to Supplementary Figure 2 in Bhaskar et al. We must note that in order to compare the Moran model to the DTWF we report the results after $20000/2 = 10000$ Moran generations in the left pane to equal a single DTWF generation. This scaling result is from Wakeley [CITE]. We can see that the probability distributions here are identical.}
+		\caption{Comparing the distribution of parental lineages in the Moran Model and the Discrete-Time Wright-Fisher (DTWF) model. For both scenarios we maintained a constant population size of $N = 20000$ and a sample size of $n=250$. The results in the right pane correspond exactly to Supplementary Figure 2 in Bhaskar et al. We must note that in order to compare the Moran model to the DTWF we report the results after $N/2 = 20000/2 = 10000$ Moran generations in the left pane to equal a single DTWF generation. This scaling result is from Wakeley [CITE]. We can see that the probability distributions here are identical.}
 	\end{figure}
 \end{center}
 

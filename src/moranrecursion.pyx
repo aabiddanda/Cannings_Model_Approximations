@@ -4,7 +4,6 @@
 '''
 
 import numpy as np 
-cimport numpy as np
 
 # Defines a simple function
 cdef double prob_lineages(int n, int m, int N):
@@ -47,6 +46,7 @@ def nlft_moran(int n, int t, delta, N):
     timeSlice = range(delta, t, delta)
     l = len(N)
     for x in timeSlice:
+        print(curRow)
         current_probs = prob_lineages_step(n, delta, N[x:l], acc = probMat[curRow, ])
         curRow += 1
         probMat[curRow, ] = current_probs
