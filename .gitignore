@@ -1,6 +1,7 @@
 src/*eps
 src/build/
 src/*.so
+src/*.c
 src/__pycache__/
 doc/*.log
 doc/*.aux

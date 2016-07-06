@@ -1,6 +1,6 @@
 
 '''
-    Module for recursion computations under the Moran model
+    Library for computing geneological quantities under the Moran Model
 '''
 
 import numpy as np 
@@ -32,12 +32,12 @@ cdef double prob_lineages(int n, int m, int N):
 '''
 def prob_lineages_step(int n, int t, N, acc=None):
     if acc is None:
-        acc = [0 for i in range(0,n+1)]
-        acc[n] = 1
+        acc = [0.] * (n+1) 
+        acc[n] = 1.
     if len(acc) != n+1:
         raise ValueError('Dimension mismatch in probability vector')
     for i in range(t):
-        new_acc = [0 for x in range(0,n+1)]
+        new_acc = [0.] * (n+1)
         for j in range(n+1):
             if j == n:
                 new_acc[j] = acc[j] * prob_lineages(j, j, N[i+1])
@@ -47,8 +47,7 @@ def prob_lineages_step(int n, int t, N, acc=None):
     return(acc)
 
 # TODO : write a matrix to compute transition densities Q[n,m]^(t) for a better arbitrary computation
-
-
+# TODO : verify that this is actually correct 
 def nlft_moran(int n, int t, delta, N):
     if t % delta != 0:
         raise ValueError('Delta does not divide time evenly')
@@ -58,10 +57,24 @@ def nlft_moran(int n, int t, delta, N):
     timeSlice = range(delta, t, delta)
     l = len(N)
     for x in timeSlice:
-        print(curRow)
         current_probs = prob_lineages_step(n, delta, N[x:l], acc = probMat[curRow, ])
         curRow += 1
         probMat[curRow, ] = current_probs
+    # TODO : should print out the NLFT like in the coalescent file
     return(probMat)
+
+# TODO : some functions to compute the SFS under the Moran Model
+
+
+
+
+
+
+
+'''
+    Reads a Moran Model from a particular file
+'''
+def readMoranModel():
+    pass
 
 

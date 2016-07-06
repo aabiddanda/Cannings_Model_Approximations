@@ -2,7 +2,7 @@
 import matplotlib.pyplot as plt
 import argparse as arg
 
-import moranrecursion as mp
+import moran_lib as mp
 import dtwf
 
 
