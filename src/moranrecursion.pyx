@@ -1,11 +1,16 @@
 
 '''
-    Module of computations under the Moran Model
+    Module for recursion computations under the Moran model
 '''
 
 import numpy as np 
 
-# Defines a simple function
+'''
+    Function to compute probability of m ancestors in Moran Model
+    @param n - number of current samples
+    @param m - number of ancestors
+    @param N - population size
+'''
 cdef double prob_lineages(int n, int m, int N):
     if (m < (n-1)) | (m > n) :
         return(0.0)
@@ -18,8 +23,13 @@ cdef double prob_lineages(int n, int m, int N):
         if m == n:
             return(1-prob)
 
-
-# TODO : make more general functions in here too
+'''
+    Function to compute probability of m descendents after t Moran generations
+    @param n - current sample size
+    @param t - duration (in Moran generations)
+    @param N - vector of population sizes per generation
+    @param acc (optional) - previous probabilities 
+'''
 def prob_lineages_step(int n, int t, N, acc=None):
     if acc is None:
         acc = [0 for i in range(0,n+1)]
@@ -35,6 +45,8 @@ def prob_lineages_step(int n, int t, N, acc=None):
                 new_acc[j] = prob_lineages(j, j, N[i+1]) * acc[j] + prob_lineages(j+1, j, N[i+1]) * acc[j+1]
         acc = new_acc
     return(acc)
+
+# TODO : write a matrix to compute transition densities Q[n,m]^(t) for a better arbitrary computation
 
 
 def nlft_moran(int n, int t, delta, N):

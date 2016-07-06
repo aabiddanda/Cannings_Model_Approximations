@@ -13,14 +13,14 @@
 
 \section{Definitions and Notation}
 
-There are many definitions for the Moran Model, but we will adopt the model according to the following algorithm:
+There are many definitions for the Moran Model, but we will adopt the model according to the following definition:
 
 \begin{enumerate}
 	\item Choose one individual to ``die''
 	\item Choose one individual (it may be the same individual) to reproduce and have 2 offspring
 \end{enumerate}
 
-Note that this differs considerably from the aspects of the Discrete-Time Wright-Fisher (DTWF) model in that by construction multiple-mergers are not allowed to occur within a generation. However, all of the other relevant genealogical properties are available.
+Note that this differs considerably from the aspects of the Discrete-Time Wright-Fisher (DTWF) model in that by construction multiple-mergers are not allowed to occur within a generation. However, all of the other relevant genealogical properties are available for interrogation.
 
 \section{Appendix and Notes}
 
@@ -63,9 +63,9 @@ $$
 \end{aligned}
 $$
 
-The recursion holds when $t' \geq t$. Having this recursion relation allows us to look at lengths of time that are longer than just a single generation. This allows us to look at the long range time-scaling of the process that is needed to compare the Moran Model to the coalescent. 
+The recursion holds when $t' \geq t$. Having this recursion relation allows us to look at lengths of time that are longer than just a single generation. This allows us to look at the long range time-scaling of the process that is needed to compare the Moran Model to the coalescent.  
 
-We would expect that when the sample size gets larger, the proportion of lineages that are lost successively in the generations of the Moran model will be quite a bit higher. 
+We would expect that when the sample size gets larger, the proportion of lineages that are lost successively in the generations of the Moran model will be quite a bit higher. See Figure 1 for a direct comparison of the probability of $m$ descendents under the Moran Model with time scaled to equal the a generation in the DTWF model. 
 
 \subsubsection{Expected Number of Lineages as a Function of Time (NLFT) under the Moran Model}
 
@@ -88,10 +88,14 @@ Now that we have the following we can think of time $t$ in much larger steps (e.
 
 \subsubsection*{Expected Number of Lineages Under the Coalescent}
 
-We use the moment-based method of Tavare [CITE] in order to compute the expected number of lineages as a function of time (with no mutation) under the Kingman coalescent:
+We use the moment-based method of Tavare [CITE] in order to compute the expectation and the variance of the NLFT (with no mutation) under the Kingman coalescent:
 
 \begin{equation*}
 	\mathbb{E}[A^C_n(t)] = \sum^n_{i=1} e^{-\binom{i}{2}\Omega(t)} (2i - 1) \frac{n_{(i)}}{n^{(i)}} 
+\end{equation*}
+
+\begin{equation*}
+	Var[A^C_n(t)] = \sum^n_{i=1} e^{-\binom{i}{2}\Omega(t)}(2i-1)(i^2 - i + 1)\frac{n_{(i)}}{n^{(i)}} - \Bigg[\mathbb{E}[A^C_n(t)]\Bigg]^2
 \end{equation*}
 
 Where $n_{(i)}$ and $n^{(i)}$ are the falling and rising factorials respectively. Note that the $t$ measured here is in ``coalescent time'' and will need to be rescaled appropriately when considering the discrete generations that we have for our model. We can define the following function to denote the rescaling of time (following Bhaskar et al) :
@@ -113,7 +117,18 @@ Where $n_{(i)}$ and $n^{(i)}$ are the falling and rising factorials respectively
 
 \newpage
 
-\subsection{Preliminary Figures}
+\subsection{Cannings Exchangeable Models}
+
+The Moran and DTWF models fall under the broader category of the Cannings Exchangeable Models. It has been shown by Kingman [CITE] that the ancestral process of these models all converge to the Kingman coalescent in the ``diffusion limit'', as $N \rightarrow \infty$. This occurs in the diffusion limit because we are able to rescale time by $N_e$ ($N_e = N$ in the DTWF, $N_e = \frac{N^2}{2}$ in the Moran model).   
+
+
+
+
+
+
+\newpage
+
+\subsection{Figures}
 
 \begin{center}
 	\begin{figure}[!h]
