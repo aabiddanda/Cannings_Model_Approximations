@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 import argparse as arg
 
 import moran_lib as mp
-import dtwf
+import dtwf_lib as dtwf
 
 
 # Setting Matplotlib preferences
