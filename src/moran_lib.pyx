@@ -46,33 +46,30 @@ def prob_lineages_step(int n, int t, N, acc=None):
         acc = new_acc
     return(acc)
 
-# TODO : write a matrix to compute transition densities Q[n,m]^(t) for a better arbitrary computation
-# TODO : verify that this is actually correct 
-def nlft_moran(int n, int t, delta, N):
+# TODO : verify for correctness
+# TODO : something is funky with the variance increasing...  
+def nlft_moran(int n, int t, int delta, N):
     if t % delta != 0:
         raise ValueError('Delta does not divide time evenly')
-    probMat = np.zeros([t/delta, n+1], dtype=float)
-    probMat[0,n] = 1.0
-    cdef int curRow = 0
+    curProb = [0.0] * (n+1)
+    curProb[n] = 1.0
     timeSlice = range(delta, t, delta)
     l = len(N)
+    print("Gen\tNLFT\tVAR_NLFT")
     for x in timeSlice:
-        current_probs = prob_lineages_step(n, delta, N[x:l], acc = probMat[curRow, ])
-        curRow += 1
-        probMat[curRow, ] = current_probs
-    # TODO : should print out the NLFT like in the coalescent file
-    return(probMat)
+        current_probs = prob_lineages_step(n, delta, N[x:l], acc = curProb)
+        curProb = current_probs
+        E_NLFT = sum([i*curProb[i] for i in range(n+1)])
+        E_NLFT2 = sum([(i**2.)*curProb[i] for i in range(n+1)])
+        var_NLFT = E_NLFT2 - (E_NLFT**2.)
+        print("%d\t%0.8f\t%0.8f" % (x, E_NLFT, var_NLFT))
+
 
 # TODO : some functions to compute the SFS under the Moran Model
 
 
-
-
-
-
-
 '''
-    Reads a Moran Model from a particular file
+    Reads a Moran Model from a demography specifying file
 '''
 def readMoranModel():
     pass

@@ -11,7 +11,9 @@
 \maketitle
 % \linenumbers
 
-\section{Definitions and Notation}
+\section{Initial Derivations}
+
+\subsection{Definitions and Notation}
 
 There are many definitions for the Moran Model, but we will adopt the model according to the following definition:
 
@@ -22,23 +24,19 @@ There are many definitions for the Moran Model, but we will adopt the model acco
 
 Note that this differs considerably from the aspects of the Discrete-Time Wright-Fisher (DTWF) model in that by construction multiple-mergers are not allowed to occur within a generation. However, all of the other relevant genealogical properties are available for interrogation.
 
-\section{Appendix and Notes}
-
-\subsection{Initial Derivations}
-
-\subsubsection{Probability of Lineage Reduction}
+\subsection{Probability of Lineage Reduction}
 Initially we want to derive the probability that the number of lineages is reduced from $n$ to $m$ from the $t^{\text{th}}$ to the $(t+1)^{\text{th}}$ generation :
 
-$$
-\begin{aligned}
-	p^{(t)}_{n,n-1} &= \frac{n}{N_{t+1}}\cdot \frac{(n-1)}{N_{t+1}}\\
-	&= \frac{n(n-1)}{N^2_{t+1}}\\
-	p^{(t)}_{n,n} &= 1 - p^{(t)}_{n,n-1}\\
-	&= 1 - \frac{n(n-1)}{N^2_{t+1}}\\
-\end{aligned}
-$$
+%$$
+%\begin{aligned}
+%	p^{(t)}_{n,n-1} &= \frac{n}{N_{t+1}}\cdot \frac{(n-1)}{N_{t+1}}\\
+%	&= \frac{n(n-1)}{N^2_{t+1}}\\
+%	p^{(t)}_{n,n} &= 1 - p^{(t)}_{n,n-1}\\
+%	&= 1 - \frac{n(n-1)}{N^2_{t+1}}\\
+%\end{aligned}
+%$$
 
-We can compactly represent this function as:
+%We can compactly represent this function as:
 
 \begin{equation*}
 	p^{(t)}_{n,m} = 
@@ -67,7 +65,7 @@ The recursion holds when $t' \geq t$. Having this recursion relation allows us t
 
 We would expect that when the sample size gets larger, the proportion of lineages that are lost successively in the generations of the Moran model will be quite a bit higher. See Figure 1 for a direct comparison of the probability of $m$ descendents under the Moran Model with time scaled to equal the a generation in the DTWF model. 
 
-\subsubsection{Expected Number of Lineages as a Function of Time (NLFT) under the Moran Model}
+\subsection{Expected Number of Lineages as a Function of Time (NLFT) under the Moran Model}
 
 Now that we have the following we can think of time $t$ in much larger steps (e.g. in increments of $t_{scaled}$) such that we can now define the probability of having $m$ ancestral lineages (conditional on $n$ lineages at time $t = 0$. These results directly mirror those of Bhaskar et al, but now with the recursion derived for the Moran Model:
 
@@ -86,7 +84,7 @@ Now that we have the following we can think of time $t$ in much larger steps (e.
 	 \mathbb{E}[A^M_n(t)] = \sum^n_{m=1} m \mathbb{P}[A^M_n (t) = m]
  \end{equation*}
 
-\subsubsection*{Expected Number of Lineages Under the Coalescent}
+\subsection*{Expected Number of Lineages Under the Coalescent}
 
 We use the moment-based method of Tavare [CITE] in order to compute the expectation and the variance of the NLFT (with no mutation) under the Kingman coalescent:
 
@@ -116,19 +114,21 @@ Where $n_{(i)}$ and $n^{(i)}$ are the falling and rising factorials respectively
 %We will further define $\gamma^{(t)}_{a,b}$ as a random variable representing the total branch length of a subtree that subtends a set of $a$ individuals in a larger set of $a+b$ individuals. 
 
 
-% \subsection{Cannings Exchangeable Models}
-
-% The Moran and DTWF models fall under the broader category of the Cannings Exchangeable Models. It has been shown by Kingman [CITE] that the ancestral process of these models all converge to the Kingman coalescent in the ``diffusion limit'', as $N \rightarrow \infty$. This occurs in the diffusion limit because we are able to rescale time by $N_e$ ($N_e = N$ in the DTWF, $N_e = \frac{N^2}{2}$ in the Moran model).   
-
-
 \newpage
 
 \subsection{Figures}
 
 \begin{center}
-	\begin{figure}[!h]
+	\begin{figure}[!ht]
 		\includegraphics[scale=0.85]{../plots/figure1}
 		\caption{Comparing the distribution of parental lineages in the Moran Model and the Discrete-Time Wright-Fisher (DTWF) model. For both scenarios we maintained a constant population size of $N = 20000$ and a sample size of $n=250$. The results in the right pane correspond exactly to Supplementary Figure 2 in Bhaskar et al. We must note that in order to compare the Moran model to the DTWF we report the results after $N/2 = 20000/2 = 10000$ Moran generations in the left pane to equal a single DTWF generation. This scaling result is from Wakeley [CITE]. We can see that the probability distributions here are identical.}
+	\end{figure}
+\end{center}
+
+\begin{center}
+	\begin{figure}[!ht]
+		\includegraphics[scale=0.85]{../plots/figure2}
+		\caption{Percent difference in NLFT for a constant haploid population size $N = 20000$ between different initial sample sizes ($n$). Note that the time scale ($t$) is in Moran generations. This is a slightly more fine-scale analysis as the 100000 Moran generations that we have simulated for is equivalent to 10 DTWF generations. The decay of the line is indicative that under the Moran Model, the NLFT is estimated to be lower than the expectation under the Coalescent}
 	\end{figure}
 \end{center}
 

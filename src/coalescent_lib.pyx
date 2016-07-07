@@ -33,15 +33,17 @@ def computeNLFTCoalescent(n, t, N, factors=None):
     # iterating through the Moran generations
     cdef double omega = 0.
     cdef double expectedValue = 0.
+    cdef double var = 0.
     cdef int i,j
-    print("Gen\tNLFT")
+    print("Gen\tNLFT\tVAR_NLFT")
     for i in range(1,t+1):
         expectedValue = 0.0
         omega += 2. / (float(N[i])**2)
         for j in range(1,n+1):
             expectedValue += exp(-1. * j * (j-1.) / 2. * omega) * factors[j]
-        print("%d\t%f" % (i,expectedValue))
-        # print(i, expectedValue, sep="\t")
+            var += exp(-1. * j * (j-1.)/2. * omega) * (j**2. - j + 1.) * factors[j]
+        var -= expectedValue**2.
+        print("%d\t%0.8f\t%0.8f" % (i,expectedValue,var))
 
 # Equation 12 from Polanski and Kimmel (Genetics 2003)
 cdef computeV(int n):
