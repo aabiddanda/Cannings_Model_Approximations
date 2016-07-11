@@ -16,10 +16,14 @@ plt.rc('figure', autolayout=True)
 '''
 def plot_figure1(n,t, N, outfile, xlim=None):
    ymoran = mp.prob_lineages_step(n,t,N)
-   m_list = [i for i in range(1,n+1)]
-   ydtwf = [dtwf.prob_anc(n,i,N[0]) for i in m_list]
+   ydtwf = dtwf.prob_anc(n,N[0])
    l = len(ymoran)
+   print(sum(ymoran))
+   print(sum(ydtwf))
+
+   print(l, len(ydtwf))
    ymoran = ymoran[1:l]
+   ydtwf = ydtwf[1:l]
    x = [i for i in range(1,n+1)]
    f, (ax1, ax2) = plt.subplots(1, 2, sharey=True)
    ax1.bar(x,ymoran, linewidth=0, align='center')
@@ -89,8 +93,8 @@ if __name__ == '__main__':
 
     # Going through all of the cases 
     if args.figure1:
-        Ne = [20000 for i in range(int(1e6))]
-        plot_figure1(250, 20000/2, Ne, args.outfile, xlim=[236,251])
+        Ne = [200 for i in range(int(1e6))]
+        plot_figure1(20, 200/2, Ne, args.outfile)
     if args.figure2:
         plot_figure2(args.outfile)
     
