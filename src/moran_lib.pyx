@@ -36,6 +36,7 @@ def prob_lineages_step(int n, int t, N, acc=None):
         acc[n] = 1.
     if len(acc) != n+1:
         raise ValueError('Dimension mismatch in probability vector')
+    cdef int i,j
     for i in range(t):
         new_acc = [0.] * (n+1)
         for j in range(n+1):
@@ -53,7 +54,7 @@ def nlft_moran(int n, int t, int delta, N):
         raise ValueError('Delta does not divide time evenly')
     curProb = [0.0] * (n+1)
     curProb[n] = 1.0
-    timeSlice = range(delta, t, delta)
+    timeSlice = range(delta, t+1, delta)
     l = len(N)
     print("Gen\tNLFT\tVAR_NLFT")
     for x in timeSlice:
@@ -64,8 +65,6 @@ def nlft_moran(int n, int t, int delta, N):
         var_NLFT = E_NLFT2 - (E_NLFT**2.)
         print("%d\t%0.8f\t%0.8f" % (x, E_NLFT, var_NLFT))
 
-
-# TODO : some functions to compute the SFS under the Moran Model
 
 
 '''

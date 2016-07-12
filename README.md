@@ -1,7 +1,13 @@
 Cannings Model Deviations
 -------------------------
 
-Rotation project to explore deviations from the Coalescent when using the Moran Model. 
+Rotation project to explore deviations from the Coalescent under various discrete-time Models.
 
-Hope to further explore rates of deviation from the coalescent in more general exchangeable models where we can set birth and death rates in overlapping generations.
+Current directions include:
+
+1. Quantifying Deviations from the Coalescent between the Wright-Fisher Model and the Moran Model
+
+2. 
+
+For more information on either of these directions please see the [doc] folder
 
