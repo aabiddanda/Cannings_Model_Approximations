@@ -1,7 +1,9 @@
 \documentclass[11pt]{article}
 
 \usepackage{amssymb, amsmath, lineno, enumitem, float, epstopdf, graphicx}
-\usepackage[margin=1in]{geometry}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage[margin=0.75in]{geometry}
 \title{Genealogical Properties under the Moran Model}\author{Arjun Biddanda}
 \date{\today}
 % Removes the page numbering
@@ -117,18 +119,26 @@ Where $n_{(i)}$ and $n^{(i)}$ are the falling and rising factorials respectively
 \begin{center}
 	\begin{figure}[!ht]
 		\includegraphics[scale=0.85]{../plots/moran_figure2}
-		\caption{Comparing the distribution of parental lineages when the population size is relatively small ($N = 200$ with a sample size of $n=25$. We can see that under a smaller population size like this (representative of a single generation bottleneck) we can start to observe some differences in the ancestral DTWF model and the Moran model.}
+		\caption{Comparing the distribution of parental lineages when the population size is relatively small ($N = 200$) with a sample size of $n=25$. We can see that under a smaller population size like this we can start to observe some differences in the ancestral DTWF model and the Moran model. Note that we have retained the same time scaling here as in the first figure as well.}
 	\end{figure}
 \end{center}
-
 
 \begin{center}
 	\begin{figure}[!ht]
-		\includegraphics[scale=0.85]{../plots/moran_figure3}
-		\caption{Percent difference in NLFT between the Moran model and the Coalescent. The generations ($t$) are measured as Moran Generation. The population size is constant $N=20000$ and the sample sizes are shown in the legend.}
+		\begin{subfigure}[t]{\textwidth}
+			\includegraphics[scale=0.7]{../plots/moran_figure3}
+		\end{subfigure}
+		~
+		\begin{subfigure}[t]{\textwidth}
+			\includegraphics[scale=0.7]{../plots/moran_figure4}
+		\end{subfigure}
+		\caption{Plots of the percent difference in the NLFT under the Moran model compared to the Coalescent. The top panel is with a constant population size of $N=20000$ and the bottom is with a constant population size of $N=2000$. The general patterns are similar for a given fraction $(\frac{n}{N})$ that the sample size represents, although there tend to be larger maximum deviations in the case of smaller population size. This makes sense because in smaller population sizes we are farther from the diffusion limit under which the Coalescent is an appropriate approximation to the ancestral process.}
 	\end{figure}
+
 \end{center}
 
 
-
 \end{document}
+
+
+

@@ -75,7 +75,7 @@ def plot_figure2(outfile, moranfiles, coalfiles, legend):
         plt.plot(t, cur_error)
     plt.legend(legend, loc='lower right')
     plt.xlabel(r'\textit{t}')
-    plt.ylabel(r'$\frac{E(A_n^M(t)) - E(A_n^C(t))}{E(A_n^C(t))} \times 100\%$')
+    plt.ylabel(r'$\frac{E[A_n^M(t)] - E[A_n^C(t)]}{E[A_n^C(t)]} \times 100\%$')
     plt.savefig(outfile, dpi=1000)
 
 
@@ -98,6 +98,6 @@ if __name__ == '__main__':
         min_x = 0 if args.n - 30 < 0 else args.n - 30
         plot_figure1(args.n, args.N/2, Ne, args.outfile, xlim=[min_x, args.n+3])
     if args.figure2:
-        print(args.moranfiles)
-        print(args.coalfiles)
+        print('Coalescent NLFT files : ', args.coalfiles)
+        print('Moran NLFT files : ', args.moranfiles)
         plot_figure2(args.outfile, args.moranfiles, args.coalfiles, args.legend2)

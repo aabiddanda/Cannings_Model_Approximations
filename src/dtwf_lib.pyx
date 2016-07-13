@@ -5,7 +5,6 @@
 	@param n : number of current lineages in generation (t)
 	@param N_t1 : population size at generation (t+1)
 '''
-# TODO : revise this as it may be incorrect (off by one)
 def prob_anc(int n, int N_t1):
     acc = [0.0] * (n+1)
     acc[0] = 1.
@@ -18,7 +17,8 @@ def prob_anc(int n, int N_t1):
 
 
 '''
-    Calculating the whole transition matrix
+    Calculating the whole transition matrix 
+    @note : this takes a really long time..
 '''
 def prob_mat(int n, int N_t1):
     mat = [[0.0 for i in range(n+1)]]
@@ -38,11 +38,12 @@ def prob_mat(int n, int N_t1):
 def nlft_dtwf(int n, int N, int t):
    prob = [0.0] * (n+1)
    prob[n] = 1.0
-   cdef int t1 = 1
+   cdef int t1,m,k
+   mat = prob_mat(n,N)
    print("T\tE_NLFT")
    for t1 in range(1,t+1):
        new_prob = [0.0] * (n+1)
-       mat = prob_mat(n, N)
+       # mat = prob_mat(n, N)
        for m in range(1, n+1):
            for k in range(m, n+1):
                new_prob[m] += mat[k][m] * prob[k]
