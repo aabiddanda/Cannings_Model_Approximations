@@ -27,17 +27,6 @@ Note that this differs considerably from the aspects of the Discrete-Time Wright
 \subsection{Probability of Lineage Reduction}
 Initially we want to derive the probability that the number of lineages is reduced from $n$ to $m$ from the $t^{\text{th}}$ to the $(t+1)^{\text{th}}$ generation :
 
-%$$
-%\begin{aligned}
-%	p^{(t)}_{n,n-1} &= \frac{n}{N_{t+1}}\cdot \frac{(n-1)}{N_{t+1}}\\
-%	&= \frac{n(n-1)}{N^2_{t+1}}\\
-%	p^{(t)}_{n,n} &= 1 - p^{(t)}_{n,n-1}\\
-%	&= 1 - \frac{n(n-1)}{N^2_{t+1}}\\
-%\end{aligned}
-%$$
-
-%We can compactly represent this function as:
-
 \begin{equation*}
 	p^{(t)}_{n,m} = 
 	\begin{cases} 1 - \frac{n(n-1)}{N^2_{t+1}}  & \text{if $m = n$,}
@@ -131,5 +120,15 @@ Where $n_{(i)}$ and $n^{(i)}$ are the falling and rising factorials respectively
 		\caption{Comparing the distribution of parental lineages when the population size is relatively small ($N = 200$ with a sample size of $n=25$. We can see that under a smaller population size like this (representative of a single generation bottleneck) we can start to observe some differences in the ancestral DTWF model and the Moran model.}
 	\end{figure}
 \end{center}
+
+
+\begin{center}
+	\begin{figure}[!ht]
+		\includegraphics[scale=0.85]{../plots/moran_figure3}
+		\caption{Percent difference in NLFT between the Moran model and the Coalescent. The generations ($t$) are measured as Moran Generation. The population size is constant $N=20000$ and the sample sizes are shown in the legend.}
+	\end{figure}
+\end{center}
+
+
 
 \end{document}

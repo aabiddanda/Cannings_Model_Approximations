@@ -14,5 +14,5 @@ if __name__ == '__main__':
     args = parser.parse_args()
 
     if args.nlft:
-        N = [args.N] * (args.t + 2)
-        mp.nlft_moran(args.sampsize, args.t, 1, N)
+        # N = [args.N] * (args.t + 2)
+        mp.nlft_moran(args.sampsize, args.t, 1, args.N)

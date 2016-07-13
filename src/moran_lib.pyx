@@ -27,10 +27,10 @@ cdef double prob_lineages(int n, int m, int N):
     Function to compute probability of m descendents after t Moran generations
     @param n - current sample size
     @param t - duration (in Moran generations)
-    @param N - vector of population sizes per generation
+    @param N - constant population size for duration
     @param acc (optional) - previous probabilities 
 '''
-def prob_lineages_step(int n, int t, N, acc=None):
+def prob_lineages_step(int n, int t, int N, acc=None):
     if acc is None:
         acc = [0.] * (n+1) 
         acc[n] = 1.
@@ -41,30 +41,27 @@ def prob_lineages_step(int n, int t, N, acc=None):
         new_acc = [0.] * (n+1)
         for j in range(n+1):
             if j == n:
-                new_acc[j] = acc[j] * prob_lineages(j, j, N[i+1])
+                new_acc[j] = acc[j] * prob_lineages(j, j, N)
             else:
-                new_acc[j] = prob_lineages(j, j, N[i+1]) * acc[j] + prob_lineages(j+1, j, N[i+1]) * acc[j+1]
+                new_acc[j] = prob_lineages(j, j, N) * acc[j] + prob_lineages(j+1, j, N) * acc[j+1]
         acc = new_acc
     return(acc)
 
-# TODO : verify for correctness
-# TODO : something is funky with the variance increasing...  
-def nlft_moran(int n, int t, int delta, N):
+# TODO : modify to include departures from constant size 
+def nlft_moran(int n, int t, int delta, int N):
     if t % delta != 0:
         raise ValueError('Delta does not divide time evenly')
     curProb = [0.0] * (n+1)
     curProb[n] = 1.0
     timeSlice = range(delta, t+1, delta)
-    l = len(N)
     print("Gen\tNLFT\tVAR_NLFT")
     for x in timeSlice:
-        current_probs = prob_lineages_step(n, delta, N[x:l], acc = curProb)
+        current_probs = prob_lineages_step(n, delta, N, acc = curProb)
         curProb = current_probs
         E_NLFT = sum([i*curProb[i] for i in range(n+1)])
         E_NLFT2 = sum([(i**2.)*curProb[i] for i in range(n+1)])
         var_NLFT = E_NLFT2 - (E_NLFT**2.)
         print("%d\t%0.8f\t%0.8f" % (x, E_NLFT, var_NLFT))
-
 
 
 '''

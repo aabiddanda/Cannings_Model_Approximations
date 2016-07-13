@@ -41,7 +41,7 @@ def plot_figure1(n, t, N, outfile, xlim=None):
    plt.savefig(outfile, dpi=1000)
 
 '''
-    Helper function to read from NLFT files
+    Helper function to read from NLFT output files
 '''
 def read_nlft(filelist):
     l = len(filelist)
@@ -58,18 +58,22 @@ def read_nlft(filelist):
 
 '''
     Comparing coalescent predictions to discrete Moran Model 
-    @param filenames - filenames for comparisons
+    @param outfile - actual output eps file
+    @param moranfiles - nlft output from moran.py
+    @param coalfiles - nlft output from coalescent.py
+    @param legend - labels to give legend (i.e. sample sizes)
 '''
-def plot_figure2(outfile, moranfiles, coalfiles):
+def plot_figure2(outfile, moranfiles, coalfiles, legend):
     assert len(moranfiles) == len(coalfiles)
     coal_exp = read_nlft(coalfiles)
     moran_exp = read_nlft(moranfiles)
-    t = [i for i in range(1,len(coal_exp)+1)]
-    for l in len(coal_exp):
-        print("Need to calculate Errors in here")
-    error = [(moran_exp[i] - coal_exp[i]) / coal_exp[i] * 100.0 for i in range(0,len(coal_exp))]
-    plt.plot(t, error)
-    plt.legend(['n = 2000', 'n = 200'], loc='upper right')
+    t = [i for i in range(1, len(coal_exp[0]) + 1)]
+    for l in range(len(coal_exp)):
+        cur_coal_exp = coal_exp[l]
+        cur_moran_exp = moran_exp[l]
+        cur_error = [(cur_moran_exp[i] - cur_coal_exp[i]) / cur_coal_exp[i] * 100.0 for i in range(len(cur_coal_exp))]
+        plt.plot(t, cur_error)
+    plt.legend(legend, loc='lower right')
     plt.xlabel(r'\textit{t}')
     plt.ylabel(r'$\frac{E(A_n^M(t)) - E(A_n^C(t))}{E(A_n^C(t))} \times 100\%$')
     plt.savefig(outfile, dpi=1000)
@@ -85,6 +89,7 @@ if __name__ == '__main__':
     parser.add_argument('-figure2', action='store_true', required=False, help='Creating Figure 2')
     parser.add_argument('-moranfiles', type=str, nargs='+', required=False, help='files detailing Moran NLFT')
     parser.add_argument('-coalfiles', type=str, nargs='+', required=False, help='files detailing Coalescent NLFT')
+    parser.add_argument('-legend2', type=str, nargs='+', required=False, help='legend labels for figure2')
     args = parser.parse_args()
 
     # Going through all of the cases 
@@ -95,7 +100,4 @@ if __name__ == '__main__':
     if args.figure2:
         print(args.moranfiles)
         print(args.coalfiles)
-        moran_nlfts = read_nlft(args.moranfiles)
-        coal_nlfts = read_nlft(args.coalfiles)
-        print(len(moran_nlfts[0]))
-        print(len(coal_nlfts[0]))
+        plot_figure2(args.outfile, args.moranfiles, args.coalfiles, args.legend2)
