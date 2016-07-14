@@ -18,7 +18,7 @@ def prob_anc(int n, int N_t1):
 
 '''
     Calculating the whole transition matrix 
-    @note : this takes a really long time..
+    Note : this takes a really long time..
 '''
 def prob_mat(int n, int N_t1):
     mat = [[0.0 for i in range(n+1)]]
@@ -43,11 +43,10 @@ def nlft_dtwf(int n, int N, int t):
    print("T\tE_NLFT")
    for t1 in range(1,t+1):
        new_prob = [0.0] * (n+1)
-       # mat = prob_mat(n, N)
        for m in range(1, n+1):
            for k in range(m, n+1):
                new_prob[m] += mat[k][m] * prob[k]
-       prob=new_prob
+       prob = new_prob
        E_NLFT = sum([i*prob[i] for i in range(1,n+1)])
        print("%d\t%0.8f" % (t1,E_NLFT))
 

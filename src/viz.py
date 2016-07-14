@@ -15,7 +15,6 @@ plt.rc('figure', autolayout=True)
     Function to compute the densities of lineages lost in 
         one generation under both the Moran and DTWF model
 '''
-# TODO : should adaptively set the xlim if possible
 def plot_figure1(n, t, N, outfile, xlim=None):
    ymoran = mp.prob_lineages_step(n,t,N)
    ydtwf = dtwf.prob_anc(n,N[0])
@@ -42,6 +41,8 @@ def plot_figure1(n, t, N, outfile, xlim=None):
 
 '''
     Helper function to read from NLFT output files
+    Note : currently only reads out the expectations
+        - TODO : read the variances as well too
 '''
 def read_nlft(filelist):
     l = len(filelist)
@@ -79,20 +80,94 @@ def plot_figure2(outfile, moranfiles, coalfiles, legend):
     plt.savefig(outfile, dpi=1000)
 
 
+'''
+    Compares the NLFT between DTWF and the Moran Model
+    @param outfile - the output file
+    @param moranfiles - list of moranfiles to read
+    @param dtwffiles - list of nlft files under the dtwf
+    @param N - constant population size (TODO : will change this soon)
+    @param legend - list of strings showing the legend
+'''
+def plot_figure3(outfile, moranfiles, dtwffiles, N, legend):
+    assert len(moranfiles) == len(dtwffiles)
+    moran_exp = read_nlft(moranfiles)
+    dtwf_exp = read_nlft(dtwffiles)
+    t = [i for i in range(1, len(moran_exp[0])+1)]
+    incr = int(N/2)
+    tot = int(len(t)/incr)
+    t_dtwf = [i*incr for i in range(1, tot+1)]
+    for j in range(len(dtwffiles)):
+        cur_dtwf_exp = dtwf_exp[j]
+        cur_moran_exp = moran_exp[j]
+        error = []
+        for i in range(0,len(cur_dtwf_exp)):
+            cur_error = cur_dtwf_exp[i] - cur_moran_exp[incr + i*incr - 1]
+            error.append(cur_error)
+        plt.plot(t_dtwf, error)
+    plt.ylim([int(min(error)-1),1])
+    plt.legend(legend, loc='lower right')
+    plt.xlabel(r'\textit{t}')
+    plt.ylabel(r'$E[A_n^D(t)] - E[A_n^M(t)]$')
+    plt.savefig(outfile, dpi=1000)
+
+
+'''
+    Plots nlft of dtwf and the moran model normalized by the coalescent rate
+'''
+def plot_figure4(outfile, moranfiles, dtwffiles, coalfiles, N, legend):
+    assert len(moranfiles) == len(dtwffiles)
+    assert len(dtwffiles) == len(coalfiles)
+    moran_exp = read_nlft(moranfiles)
+    dtwf_exp = read_nlft(dtwffiles)
+    coal_exp = read_nlft(coalfiles)
+    t = [i for i in range(1, len(moran_exp[0])+1)]
+    incr = int(N/2)
+    tot = int(len(t)/incr)
+    t_dtwf = [i*incr for i in range(1, tot+1)]
+    for j in range(len(coalfiles)):
+        cur_dtwf_exp = dtwf_exp[j]
+        cur_moran_exp = moran_exp[j]
+        cur_coal_exp = coal_exp[j]
+        dtwf_error = []
+        moran_error = []
+        print(cur_moran_exp)
+        for i in range(0,len(cur_dtwf_exp)):
+            cur_dtwf_error = (cur_dtwf_exp[i] - cur_coal_exp[incr + i*incr - 1]) / (cur_coal_exp[incr + i*incr - 1])
+
+            cur_moran_error = (cur_moran_exp[incr + i*incr -1] - cur_coal_exp[incr + i*incr - 1]) 
+            print(cur_dtwf_error, cur_moran_error)
+            dtwf_error.append(cur_dtwf_error)
+            moran_error.append(cur_moran_error)
+        plt.plot(t_dtwf, dtwf_error)
+        plt.plot(t_dtwf, moran_error)
+    #plt.ylim([int(min(error)-1),1])
+    #plt.legend(legend, loc='lower right')
+    #plt.xlabel(r'\textit{t}')
+    #plt.ylabel(r'$E[A_n^D(t)] - E[A_n^M(t)]$')
+    plt.savefig(outfile, dpi=1000)
+
+
+
+
+
+
 if __name__ == '__main__':
     # Parse all arguments
     parser = arg.ArgumentParser()
     parser.add_argument('-o', '--outfile', required=True, help='output figure file')
     parser.add_argument('-n', type=int, required=False, help='sample size', default=250)
     parser.add_argument('-N', type=int, required=False, help='constant population size', default=20000)
-    parser.add_argument('-figure1', action='store_true', required=False, help='Creating Figure 1')
-    parser.add_argument('-figure2', action='store_true', required=False, help='Creating Figure 2')
     parser.add_argument('-moranfiles', type=str, nargs='+', required=False, help='files detailing Moran NLFT')
     parser.add_argument('-coalfiles', type=str, nargs='+', required=False, help='files detailing Coalescent NLFT')
-    parser.add_argument('-legend2', type=str, nargs='+', required=False, help='legend labels for figure2')
+    parser.add_argument('-dtwffiles', type=str, nargs='+', required=False, help='files detailing NLFT for the Moran Model')
+    parser.add_argument('-legend', type=str, nargs='+', required=False, help='legend labels for figure2')
+    parser.add_argument('-figure1', action='store_true', required=False, help='Creating Figure 1')
+    parser.add_argument('-figure2', action='store_true', required=False, help='Creating Figure 2')
+    parser.add_argument('-figure3', action='store_true', required=False, help='Creating Figure 3')
+    parser.add_argument('-figure4', action='store_true', required=False, help='Creating Figure 4')
     args = parser.parse_args()
 
-    # Going through all of the cases 
+    # Going through all of the cases for figures
     if args.figure1:
         Ne = [args.N for i in range(int(1e6))]
         min_x = 0 if args.n - 30 < 0 else args.n - 30
@@ -100,4 +175,18 @@ if __name__ == '__main__':
     if args.figure2:
         print('Coalescent NLFT files : ', args.coalfiles)
         print('Moran NLFT files : ', args.moranfiles)
-        plot_figure2(args.outfile, args.moranfiles, args.coalfiles, args.legend2)
+        plot_figure2(args.outfile, args.moranfiles, args.coalfiles, args.legend)
+    if args.figure3:
+        print('Moran NLFT files : ', args.moranfiles)
+        print('DTWF NLFT files : ', args.dtwffiles)
+        plot_figure3(args.outfile, args.moranfiles, args.dtwffiles, args.N, args.legend)
+    if args.figure4:
+        print('Moran NLFT files : ', args.moranfiles)
+        print('DTWF NLFT files : ', args.dtwffiles)  
+        print('Coalescent NLFT files : ', args.coalfiles)
+        plot_figure4(args.outfile, args.moranfiles, args.dtwffiles, args.coalfiles, args.N, args.legend)
+
+
+
+
+
