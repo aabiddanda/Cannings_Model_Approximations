@@ -58,7 +58,7 @@ We would expect that when the sample size gets larger, the proportion of lineage
 
 \subsection{Expected Number of Lineages as a Function of Time (NLFT) under the Moran Model}
 
-Now that we have the following we can think of time $t$ in much larger steps (e.g. in increments of $t_{scaled}$) such that we can now define the probability of having $m$ ancestral lineages (conditional on $n$ lineages at time $t = 0$. These results directly mirror those of Bhaskar et al, but now with the recursion derived for the Moran Model:
+Now that we have the following we can think of time $t$ in much larger steps (e.g. in increments of $t_{scaled}$) such that we can now define the probability of having $m$ ancestral lineages (conditional on $n$ lineages at time $t = 0$. These results directly mirror those of Bhaskar et al \cite{Bhaskar2014}, but now with the recursion derived for the Moran Model:
 
  \begin{equation*}
 	 \mathbb{P}[A^M_n(t) = m] =
@@ -69,7 +69,7 @@ Now that we have the following we can think of time $t$ in much larger steps (e.
 	 \end{cases}
  \end{equation*}
 
- Where $\delta$ takes a value of $1$ when $n=m$ and $0$ elsewhere. From this realization, we can directly calculate the NLFT in the Moran Model as:
+ Where $\delta$ is $1$ when $n = m$ and $0$ elsewhere. From this realization, we can directly calculate the NLFT in the Moran Model as:
 
  \begin{equation*}
 	 \mathbb{E}[A^M_n(t)] = \sum^n_{m=1} m \mathbb{P}[A^M_n (t) = m]
@@ -77,7 +77,7 @@ Now that we have the following we can think of time $t$ in much larger steps (e.
 
 \subsection*{Expected Number of Lineages Under the Coalescent}
 
-We use the moment-based method of Tavare [CITE] in order to compute the expectation and the variance of the NLFT (with no mutation) under the Kingman coalescent:
+We use the moment-based method of Tavare \cite{Tavare1984} in order to compute the expectation and the variance of the NLFT (with no mutation) under the Kingman coalescent:
 
 \begin{equation*}
 	\mathbb{E}[A^C_n(t)] = \sum^n_{i=1} e^{-\binom{i}{2}\Omega(t)} (2i - 1) \frac{n_{(i)}}{n^{(i)}} 
@@ -87,8 +87,7 @@ We use the moment-based method of Tavare [CITE] in order to compute the expectat
 	Var[A^C_n(t)] = \sum^n_{i=1} e^{-\binom{i}{2}\Omega(t)}(2i-1)(i^2 - i + 1)\frac{n_{(i)}}{n^{(i)}} - \Bigg[\mathbb{E}[A^C_n(t)]\Bigg]^2
 \end{equation*}
 
-Where $n_{(i)}$ and $n^{(i)}$ are the falling and rising factorials respectively. Note that the $t$ measured here is in ``coalescent time'' and will need to be rescaled appropriately when considering the discrete generations that we have for our model. We can define the following function to denote the rescaling of time (following Bhaskar et al) :
-
+Where $n_{(i)}$ and $n^{(i)}$ are the falling and rising factorials respectively. Note that the $t$ measured here is in ``coalescent time'' and will need to be rescaled appropriately when considering the discrete generations that we have for our model. We can define the following function to denote the rescaling of time (following Bhaskar et al \cite{Bhaskar2014}):
 \begin{equation*}
 	\Omega(t) = \begin{cases}
 		\int_{0}^t \frac{N_0}{N_\tau} d\tau &\text{under the DTWF}\\[2ex]
@@ -104,6 +103,8 @@ Where $n_{(i)}$ and $n^{(i)}$ are the falling and rising factorials respectively
 
 %We will further define $\gamma^{(t)}_{a,b}$ as a random variable representing the total branch length of a subtree that subtends a set of $a$ individuals in a larger set of $a+b$ individuals. 
 
+\bibliography{moran}{}
+\bibliographystyle{plain}
 
 \newpage
 
@@ -112,7 +113,7 @@ Where $n_{(i)}$ and $n^{(i)}$ are the falling and rising factorials respectively
 \begin{center}
 	\begin{figure}[!ht]
 		\includegraphics[scale=0.85]{../plots/moran_figure1}
-		\caption{Comparing the distribution of parental lineages in the Moran Model and the Discrete-Time Wright-Fisher (DTWF) model. For both scenarios we maintained a constant population size of $N = 20000$ and a sample size of $n=250$. The results in the right pane correspond exactly to Supplementary Figure 2 in Bhaskar et al. We must note that in order to compare the Moran model to the DTWF we report the results after $N/2 = 20000/2 = 10000$ Moran generations in the left pane to equal a single DTWF generation. This scaling result is from Wakeley [CITE]. If we compare the expected number of ancestral lineages, $\mathbb{E}(m | Moran) = 247.45337685$ and  $\mathbb{E}(m | DTWF) = 247.45016269$}
+		\caption{Comparing the distribution of parental lineages in the Moran Model and the Discrete-Time Wright-Fisher (DTWF) model. For both scenarios we maintained a constant population size of $N = 20000$ and a sample size of $n=250$. The results in the right pane correspond exactly to Supplementary Figure 2 in Bhaskar et al. We must note that in order to compare the Moran model to the DTWF we report the results after $N/2 = 20000/2 = 10000$ Moran generations in the left pane to equal a single DTWF generation. This scaling result is from Wakeley \cite{Wakeley2008}. If we compare the expected number of ancestral lineages, $\mathbb{E}(m | Moran) = 247.45337685$ and  $\mathbb{E}(m | DTWF) = 247.45016269$}
 	\end{figure}
 \end{center}
 
@@ -140,15 +141,16 @@ Where $n_{(i)}$ and $n^{(i)}$ are the falling and rising factorials respectively
 	\end{figure}
 \end{center}
 
+% TODO : need to verify that this is completely true and why...
+% TODO : this suggests something interesting though...
 \begin{center}
 	\begin{figure}[!ht]
 		\begin{center}
 			\includegraphics[scale=0.80]{../plots/moran_figure5}
 		\end{center}
-		\caption{\textbf{TODO: } Difference in Expected NLFT according to the DTWF and the}
+		\caption{Difference in Expected NLFT between the DTWF and the Moran Model. Here we have scaled time appropriately since this is the constant sized case where $N=20000$ (e.g. $\mathbb{E}[A_n^D(1)]$ vs. $\mathbb{E}[A_n^{M}(10000)]$) This suggests a consistent difference in the NLFT (and likely the expected SFS) between the Moran and the DTWF model when the sample size gets exceedingly large. In the previous figures we see that under larger sample sizes the Moran model loses lineages at a faster rate than the Coalescent. This plot suggests that the DTWF model loses lineages at a faster rate than the Moran model (and therefore much more so than the Coalescent). This is likely due to the possibility for multiple mergers within a single generation of the DTWF.}
 	\end{figure}
 \end{center}
-
 
 \end{document}
 

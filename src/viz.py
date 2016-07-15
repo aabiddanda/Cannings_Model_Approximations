@@ -101,13 +101,14 @@ def plot_figure3(outfile, moranfiles, dtwffiles, N, legend):
         cur_moran_exp = moran_exp[j]
         error = []
         for i in range(0,len(cur_dtwf_exp)):
-            cur_error = cur_dtwf_exp[i] - cur_moran_exp[incr + i*incr - 1]
-            error.append(cur_error)
+            print('%d\t%d\t%0.8f\t%0.8f' % (i, incr + i*incr - 1, cur_dtwf_exp[i], cur_moran_exp[incr + i*incr - 1]))
+            cur_error = (cur_dtwf_exp[i] - cur_moran_exp[incr + i*incr - 1]) / cur_dtwf_exp[i]
+            error.append(cur_error * 100)
         plt.plot(t_dtwf, error)
-    plt.ylim([int(min(error)-1),1])
+    plt.ylim([min(error)-0.5,max(error)+0.5])
     plt.legend(legend, loc='lower right')
     plt.xlabel(r'\textit{t}')
-    plt.ylabel(r'$E[A_n^D(t)] - E[A_n^M(t)]$')
+    plt.ylabel(r'$\frac{E[A_n^D(t)] - E[A_n^M(t)]}{E[A_n^D(t)]} \times 100\%$')
     plt.savefig(outfile, dpi=1000)
 
 
@@ -130,19 +131,17 @@ def plot_figure4(outfile, moranfiles, dtwffiles, coalfiles, N, legend):
         cur_coal_exp = coal_exp[j]
         dtwf_error = []
         moran_error = []
-        print(cur_moran_exp)
         for i in range(0,len(cur_dtwf_exp)):
+            print('%d\t%0.8f\t%0.8f\t%0.8f' %  (i, cur_dtwf_exp[i], cur_moran_exp[incr + i*incr -1], cur_coal_exp[incr + i*incr -1]))
             cur_dtwf_error = (cur_dtwf_exp[i] - cur_coal_exp[incr + i*incr - 1]) / (cur_coal_exp[incr + i*incr - 1])
-
-            cur_moran_error = (cur_moran_exp[incr + i*incr -1] - cur_coal_exp[incr + i*incr - 1]) 
-            print(cur_dtwf_error, cur_moran_error)
+            cur_moran_error = (cur_moran_exp[incr + i*incr -1] - cur_coal_exp[incr + i*incr - 1]) / (cur_coal_exp[incr + i*incr - 1]) 
             dtwf_error.append(cur_dtwf_error)
             moran_error.append(cur_moran_error)
         plt.plot(t_dtwf, dtwf_error)
         plt.plot(t_dtwf, moran_error)
-    #plt.ylim([int(min(error)-1),1])
-    #plt.legend(legend, loc='lower right')
-    #plt.xlabel(r'\textit{t}')
+    plt.ylim([min(dtwf_error)-1.,max(dtwf_error)+0.5])
+    plt.legend(legend, loc='lower right')
+    plt.xlabel(r'\textit{t}')
     #plt.ylabel(r'$E[A_n^D(t)] - E[A_n^M(t)]$')
     plt.savefig(outfile, dpi=1000)
 
