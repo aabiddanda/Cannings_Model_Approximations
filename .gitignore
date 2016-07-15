@@ -6,4 +6,6 @@ src/__pycache__/
 doc/*.log
 doc/*.aux
 doc/*.pdf
+doc/*.bbl
+doc/*.blg
 
