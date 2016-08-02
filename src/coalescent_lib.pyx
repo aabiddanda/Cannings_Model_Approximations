@@ -49,6 +49,7 @@ def computeNLFTCoalescent(n, t, N, factors=None):
 cdef computeV(int n):
     v = [0] * (n+1)
     v[2] = (n-1.) / (n+1.)
+    cdef j
     for j in range(4, n+1, 2):
         v[j] = v[j-2] * (n - j + 2) / (n + j - 2) * (n- j + 1) / (n + j - 1)
     for j in range(2, n+1, 2):
@@ -61,6 +62,7 @@ cdef computeW(int n, int b):
     w = [0] * (n+1)
     w[2] = 6. / (n + 1.)
     w[3] = 30. / (n + 1.) * (n - 2.*b) / (n + 2.)
+    cdef j
     for j in range(2, n-2+1):
         coef1 = - (1. + j) / j * (3. + 2.*j) / (2.*j - 1)  * (n - j) / (n + j + 1.)
         coef2 = (3. + 2.*j) * (n - 2.*b) / j / (n + j + 1.)
@@ -82,7 +84,7 @@ cdef computeEj(int n, N):
 
 # Computes the first maxA entries of the normalized SFS for a sample of size n 
 # Eq (8) in Polanski and Kimmel (Genetics 2003)
-def computeSFSHelper(n, maxA, N):
+def computeSFSHelper(int n, int maxA, int N):
     # precomputing some stuff
     Ej = computeEj(n, N)
     V = computeV(n)

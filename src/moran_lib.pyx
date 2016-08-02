@@ -47,7 +47,6 @@ def prob_lineages_step(int n, int t, int N, acc=None):
         acc = new_acc
     return(acc)
 
-# TODO : modify to include departures from constant size 
 def nlft_moran(int n, int t, int delta, int N):
     if t % delta != 0:
         raise ValueError('Delta does not divide time evenly')
@@ -63,11 +62,34 @@ def nlft_moran(int n, int t, int delta, int N):
         var_NLFT = E_NLFT2 - (E_NLFT**2.)
         print("%d\t%0.8f\t%0.8f" % (x, E_NLFT, var_NLFT))
 
+'''
+    Calculating gamma (branch lengths)
+    @param N - population size
+    @param a - subtending branch
+    @param b - other fraction in sample
+'''
+def gamma_constant(int N, int a, int b):
+    if a == 1 & b == 1:
+        return(N**2. / 2)
+    if a == 1:
+        pass
+
+
 
 '''
     Reads a Moran Model from a demography specifying file
 '''
 def readMoranModel():
     pass
+
+
+
+
+
+
+
+
+
+
 
 

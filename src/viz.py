@@ -17,7 +17,7 @@ plt.rc('figure', autolayout=True)
 '''
 def plot_figure1(n, t, N, outfile, xlim=None):
    ymoran = mp.prob_lineages_step(n,t,N)
-   ydtwf = dtwf.prob_anc(n,N[0])
+   ydtwf = dtwf.prob_anc(n, N[0])
    l = len(ymoran)
    ymoran = ymoran[1:l]
    ydtwf = ydtwf[1:l]
@@ -72,11 +72,11 @@ def plot_figure2(outfile, moranfiles, coalfiles, legend):
     for l in range(len(coal_exp)):
         cur_coal_exp = coal_exp[l]
         cur_moran_exp = moran_exp[l]
-        cur_error = [(cur_moran_exp[i] - cur_coal_exp[i]) / cur_coal_exp[i] * 100.0 for i in range(len(cur_coal_exp))]
+        cur_error = [(cur_moran_exp[i] - cur_coal_exp[i]) / cur_moran_exp[i] * 100.0 for i in range(len(cur_moran_exp))]
         plt.plot(t, cur_error)
     plt.legend(legend, loc='lower right')
     plt.xlabel(r'\textit{t}')
-    plt.ylabel(r'$\frac{E[A_n^M(t)] - E[A_n^C(t)]}{E[A_n^C(t)]} \times 100\%$')
+    plt.ylabel(r'$\frac{E[A_n^M(t)] - E[A_n^C(t)]}{E[A_n^M(t)]} \times 100\%$')
     plt.savefig(outfile, dpi=1000)
 
 
@@ -132,17 +132,17 @@ def plot_figure4(outfile, moranfiles, dtwffiles, coalfiles, N, legend):
         dtwf_error = []
         moran_error = []
         for i in range(0,len(cur_dtwf_exp)):
-            print('%d\t%0.8f\t%0.8f\t%0.8f' %  (i, cur_dtwf_exp[i], cur_moran_exp[incr + i*incr -1], cur_coal_exp[incr + i*incr -1]))
-            cur_dtwf_error = (cur_dtwf_exp[i] - cur_coal_exp[incr + i*incr - 1]) / (cur_coal_exp[incr + i*incr - 1])
-            cur_moran_error = (cur_moran_exp[incr + i*incr -1] - cur_coal_exp[incr + i*incr - 1]) / (cur_coal_exp[incr + i*incr - 1]) 
-            dtwf_error.append(cur_dtwf_error)
-            moran_error.append(cur_moran_error)
+            cur_dtwf_error = (cur_dtwf_exp[i] - cur_coal_exp[incr + i*incr - 1]) / (cur_dtwf_exp[i])
+            cur_moran_error = (cur_moran_exp[incr + i*incr -1] - cur_coal_exp[incr + i*incr - 1]) / (cur_moran_exp[incr + i*incr - 1]) 
+            dtwf_error.append(cur_dtwf_error*100.0)
+            moran_error.append(cur_moran_error*100.0)
+            print('%d\t%0.8f\t%0.8f' %  (i, cur_dtwf_error, cur_moran_error))
         plt.plot(t_dtwf, dtwf_error)
         plt.plot(t_dtwf, moran_error)
-    plt.ylim([min(dtwf_error)-1.,max(dtwf_error)+0.5])
+    plt.ylim([min(dtwf_error)-0.01,0.01])
     plt.legend(legend, loc='lower right')
     plt.xlabel(r'\textit{t}')
-    #plt.ylabel(r'$E[A_n^D(t)] - E[A_n^M(t)]$')
+    plt.ylabel(r'Normalized Error $(\times 100\%)$')
     plt.savefig(outfile, dpi=1000)
 
 

@@ -29,7 +29,7 @@ Note that this differs considerably from the aspects of the Discrete-Time Wright
 \subsection{Probability of Lineage Reduction}
 Initially we want to derive the probability that the number of lineages is reduced from $n$ to $m$ from the $t^{\text{th}}$ to the $(t+1)^{\text{th}}$ generation :
 
-\begin{equation*}
+\begin{equation}
 	p^{(t)}_{n,m} = 
 	\begin{cases} 1 - \frac{n(n-1)}{N^2_{t+1}}  & \text{if $m = n$,}
 		\\
@@ -37,7 +37,7 @@ Initially we want to derive the probability that the number of lineages is reduc
 		\\
 		0 &\text{else.}
 	\end{cases}
-\end{equation*}
+\end{equation}
 
 We note that as $t$ is increasing, we are moving farther back in time (e.g. the ($t+1)^{th}$ generation is gene generation immediately before the $t^{th}$. The rationale for the derivation is that in order to reduce the number of lineages by 1, we must pick one of $n$ individuals to then be ``replaced'' by one of $n-1$ individuals. 
 
@@ -60,48 +60,46 @@ We would expect that when the sample size gets larger, the proportion of lineage
 
 Now that we have the following we can think of time $t$ in much larger steps (e.g. in increments of $t_{scaled}$) such that we can now define the probability of having $m$ ancestral lineages (conditional on $n$ lineages at time $t = 0$. These results directly mirror those of Bhaskar et al \cite{Bhaskar2014}, but now with the recursion derived for the Moran Model:
 
- \begin{equation*}
+ \begin{equation}
 	 \mathbb{P}[A^M_n(t) = m] =
 	 \begin{cases} 
 		 \sum^n_{k=m}  p^{(t-t_{scaled}, t)}_{k,m} \mathbb{P}[A^M_n (t-t_{scaled}) = k],  &\text{if $t > 0$,}
 	 	 \\
 		 \delta_{n,m} &\text{if $t = 0$}
 	 \end{cases}
- \end{equation*}
+ \end{equation}
 
- Where $\delta$ is $1$ when $n = m$ and $0$ elsewhere. From this realization, we can directly calculate the NLFT in the Moran Model as:
+ Where $\delta$ is $1$ when $n = m$ and $0$ elsewhere. From this, we can directly calculate the expected NLFT in the Moran Model as:
 
- \begin{equation*}
+ \begin{equation}
 	 \mathbb{E}[A^M_n(t)] = \sum^n_{m=1} m \mathbb{P}[A^M_n (t) = m]
- \end{equation*}
+ \end{equation}
 
 \subsection*{Expected Number of Lineages Under the Coalescent}
 
 We use the moment-based method of Tavare \cite{Tavare1984} in order to compute the expectation and the variance of the NLFT (with no mutation) under the Kingman coalescent:
 
-\begin{equation*}
+\begin{equation}
 	\mathbb{E}[A^C_n(t)] = \sum^n_{i=1} e^{-\binom{i}{2}\Omega(t)} (2i - 1) \frac{n_{(i)}}{n^{(i)}} 
-\end{equation*}
+\end{equation}
 
-\begin{equation*}
+\begin{equation}
 	Var[A^C_n(t)] = \sum^n_{i=1} e^{-\binom{i}{2}\Omega(t)}(2i-1)(i^2 - i + 1)\frac{n_{(i)}}{n^{(i)}} - \Bigg[\mathbb{E}[A^C_n(t)]\Bigg]^2
-\end{equation*}
+\end{equation}
 
 Where $n_{(i)}$ and $n^{(i)}$ are the falling and rising factorials respectively. Note that the $t$ measured here is in ``coalescent time'' and will need to be rescaled appropriately when considering the discrete generations that we have for our model. We can define the following function to denote the rescaling of time (following Bhaskar et al \cite{Bhaskar2014}):
-\begin{equation*}
+
+\begin{equation}
 	\Omega(t) = \begin{cases}
 		\int_{0}^t \frac{N_0}{N_\tau} d\tau &\text{under the DTWF}\\[2ex]
 		\int_{0}^t \frac{N_0^2/2}{N_\tau^2/2} d\tau  &\text{under the Moran Model}
 	\end{cases}
-\end{equation*}
+\end{equation}
 
 %\subsubsection{Sample Frequency Spectrum under the Moran Model}
 
-%We would also like to obtain the expected Site Frequency Spectrum (SFS) under the Moran Model. We will use the same notation and general derivation as Bhaskar et al.
+%We would also like to obtain the expected Site Frequency Spectrum (SFS) under the Moran Model. We will assume for the time-being that we have a constant size population 
 
-%We set the entry $\tau_{n,k}$ as the number of sites at which $k$ individuals carry the derived allele and $n-k$ individuals carry the ancestral allele. Thus we can then define the entire SFS as $\tau_n = (\tau_{n,1}, ..., \tau_{n,n-1})$. 
-
-%We will further define $\gamma^{(t)}_{a,b}$ as a random variable representing the total branch length of a subtree that subtends a set of $a$ individuals in a larger set of $a+b$ individuals. 
 
 \bibliography{moran}{}
 \bibliographystyle{plain}
@@ -141,18 +139,29 @@ Where $n_{(i)}$ and $n^{(i)}$ are the falling and rising factorials respectively
 	\end{figure}
 \end{center}
 
-% TODO : need to verify that this is completely true and why...
-% TODO : this suggests something interesting though...
 \begin{center}
 	\begin{figure}[!ht]
 		\begin{center}
 			\includegraphics[scale=0.80]{../plots/moran_figure5}
 		\end{center}
-		\caption{Difference in Expected NLFT between the DTWF and the Moran Model. Here we have scaled time appropriately since this is the constant sized case where $N=20000$ (e.g. $\mathbb{E}[A_n^D(1)]$ vs. $\mathbb{E}[A_n^{M}(10000)]$) This suggests a consistent difference in the NLFT (and likely the expected SFS) between the Moran and the DTWF model when the sample size gets exceedingly large. In the previous figures we see that under larger sample sizes the Moran model loses lineages at a faster rate than the Coalescent. This plot suggests that the DTWF model loses lineages at a faster rate than the Moran model (and therefore much more so than the Coalescent). This is likely due to the possibility for multiple mergers within a single generation of the DTWF.}
+		\caption{Difference in Expected NLFT between the DTWF and the Moran Model. Here we have scaled time appropriately since this is the constant sized case where $N=20000$ (e.g. $\mathbb{E}[A_n^D(1)]$ vs. $\mathbb{E}[A_n^{M}(10000)]$) This suggests a consistent difference in the NLFT (and likely the expected SFS) between the Moran and the DTWF model when the sample size gets exceedingly large. In the previous figures we see that under larger sample sizes the Moran model loses lineages at a faster rate than the Coalescent. This plot suggests that the DTWF model loses lineages at a faster rate than the Moran model (and therefore much more so than the Coalescent). The moran model is also known to converge to the Kingman Coalescent at a rate of $O(N^{-2})$, where the DTWF model is known to converge to the coalescent at rate $O(N^{-1})$}
 	\end{figure}
 \end{center}
 
-\end{document}
 
+\begin{center}
+	\begin{figure}[!ht]
+		\begin{center}
+			\includegraphics[scale=0.80]{../plots/moran_figure6}
+		\end{center}
+		\caption{Difference in Expected NLFT between the DTWF and the Moran Model. The expressions being compared here are $\frac{\mathbb{E}(A^M) - \mathbb{E}(A^C)}{\mathbb{E}(A^M)}$ and $\frac{\mathbb{E}(A^D) - \mathbb{E}(A^C)}{\mathbb{E}(A^D)}$. Note that the deviation from the coalescent expectation is much larger in the DTWF model as opposed to the Moran Model. } 
+	\end{figure}	
+\end{center}
+
+
+
+
+
+\end{document}
 
 

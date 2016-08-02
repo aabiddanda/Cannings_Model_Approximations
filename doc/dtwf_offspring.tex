@@ -1,22 +1,112 @@
 \documentclass[11pt]{article}
 
-\usepackage{amssymb, amsmath, lineno, enumitem, float, epstopdf, graphicx}
+\usepackage{amssymb, amsmath, amsthm, lineno, enumitem, float, epstopdf, graphicx}
 \usepackage[margin=1in]{geometry}
-\title{Genealogical Properties under a Discrete-Time Wright-Fisher model with }\author{Arjun Biddanda}
+\title{Genealogical Properties under a Modified Discrete-Time Wright-Fisher Model}
+\author{Arjun Biddanda}
 \date{\today}
-% Removes the page numbering
 \pagenumbering{gobble}
+
+\newtheorem{lemma}{Lemma}
 
 \begin{document}
 \maketitle
-% \linenumbers
+\linenumbers
 
-\section{Initial Derivations}
+\subsection{Initial Idea}
 
-\subsection{Definitions and Notation}
+Traditionally in population genetics, the population in question is assumed to be completely panmictic. However it is known that there is an underlying pedigree within many diploid populations that induces a structure which is dissimilar to the assumption of panmixia.
+
+Here we aim to address two particular questions : 
+
+\begin{itemize}
+	\item What is the relationship of the variance in the offspring distribution to deviations from coalescent expectations?
+	\item How might the variance in the offspring distribution affect deviations from the coalescent in the face of large sample sizes that violate $n \leq O(\sqrt{N})$?
+\end{itemize}
+
+Intuitively the more multiple-mergers you have within the ancestral process, the farther and farther from the Kingman coalescent process the ancestral limit of the discrete process will be. Indeed this has been theoretically quantified by M\"{o}hle \cite{Mohle2000} as:
+
+$$\lim_{N \rightarrow \infty} \frac{\phi_1(3)}{\phi_1{2}} = 0$$
+
+This states that we can find the Kingman Coalescent to be an appropriate ancestral limiting process if we can ignore the probability of triple and simultaneous mergers relative to simple pairwise mergers. A feature that interests us is the rate at which these discrete processes converge to the coalescent, which should be on the order:
+
+$$M_N = max\left( \frac{\mathbb{E}[(\nu_1)_2]}{N-1} , \frac{\mathbb{E}[(\nu_1)_3]}{(N-2)\mathbb{E}[(\nu_1)_2]}, \frac{(N-1)\mathbb{E}[(\nu_1)_2(\nu_2)_2]}{(N-2)(N-3)\mathbb{E}(\nu_1)_2} \right)$$
+
+Where $\nu_1$ is an exchangeable random variable detailing the largest family size. The three terms in the maximum correspond to the pairwise probability of oalescence, the probability of a triple-merger, and the probability of two simultaneous mergers. M\"{o}hle \cite{Mohle2000} first used this criteria in defining general rates of convergence to the coalescent process according to the family size distribution, by defining the initial limit of triple and pairwise mergers as a function of the offspring distribution: 
+
+\begin{equation}
+	\lim_{N \rightarrow \infty} \frac{\mathbb{E}[(\nu_1)_3]}{N \mathbb{E}[(\nu_1)_2]} = 0
+\end{equation}
+
+And here time will be measured by $\frac{N}{Var(\nu_1)}$. We seek to impose different distributional assumptions on  $\nu = (\nu_1, ...,\nu_n)$ and look at the effects that it presents when looking at very large samples of individuals from a population. 
+
+\subsection{Initial Model}
+
+Here we formulate a model similar to that of Eldon and Wakeley\cite{Eldon2006} for a modified DTWF model according to the following forward-time algorithm:
+
+\begin{enumerate}
+	\item
+	\item 
+	\item
+\end{enumerate}
+
 
 
 \subsection{Probability of Lineage Reduction}
+
+
+
+
+
+\subsection{Deviation in the Number of Lineages as a Function of Time (NLFT)}
+
+
+
+
+
+
+
+\bibliography{dtwf}{}
+\bibliographystyle{plain}
+
+
+\subsection{Appendix :  Convergence to the Kingman Coalescent}
+
+As originally shown by Kingman, a large family of models in which the offspring distribution is exchangeable, known as the Cannings Exchangeable models [CITE] will converge to the coalescent in the limit as $N \rightarrow \infty$. Here we show that our modified DWTF process converges to the coalescent as the population size tends to infinity.
+
+\begin{lemma}
+	The ancestral process of the standard DTWF is the Coalescent
+\end{lemma}
+
+\begin{proof}
+	Following the notation from Bhaskar et al [CITE], we prove that the probability of coalescence of two lineages approaches $0$ as the population size gets large. 	
+	$$
+	\begin{aligned}
+		p_{2,1} &= \frac{N-1+1}{N}p_{1,0} + \frac{1}{N}p_{1,1}\\
+		p_{1,1} &= \frac{N-1+1}{N}p_{0,0} + \frac{1}{N}p_{0,1}\\
+		&= 1\\
+		p_{2,1} &= \frac{1}{N}(p_{1,1})\\
+		&= \frac{1}{N}\\
+		\lim_{N\to\infty} p_{2,1} &= \lim_{N\to\infty} \frac{1}{N}\\
+		&= 0
+	\end{aligned}
+	$$
+\end{proof}
+
+\subsubsection{Convergence to the Coalescent with Offspring Size}
+
+Here we adopt a similar model to that of Eldon and Wakeley in defining the distribution on $\nu_1$ as the following:
+
+$$
+p_{\nu_1}(v) =
+\begin{cases}
+	1 - N^{-\alpha} &, \text{if  } v = 1\\
+	N^{-\alpha} &, \text{if  } v = N\psi\\
+	0 &, \text{otherwise}
+\end{cases}
+$$
+
+\textbf{TODO} : finish this proof here for why we want to consider this.
 
 
 \end{document}

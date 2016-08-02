@@ -20,7 +20,6 @@ extensions = [
             ['dtwf_lib.pyx'],
             extra_compile_args=['-w'])
         ]
-
 setup(ext_modules = cythonize(extensions))
 
 # Linking the Mac Module to 
