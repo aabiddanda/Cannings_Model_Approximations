@@ -71,4 +71,45 @@ def nlft_dtwf(int n, int N, int t):
 
 
 
+'''
+    Calculating the branch length that subtends individuals:
+    @param maxA - maximum A entry that we want to calculate branch lengths for
+    @param n - the current sample size
+    @param N - the current (constant) population size
+    @param Q - lineage transition matrix
+'''
+# TODO : should define a truncated version 
+def calc_gamma_const(int maxA, int n,  int N, Q):
+    gamma_const = [[0.0]*(n+1) for i in range(min(maxA,N)+1)]
+    cdef int a,b
+    cdef double f, ans
+    #gamma_const[1][1] = N
+    for a in range(1, min(maxA,N) + 1):
+        for b in range(1, n+1):
+            if (a + b <= n) & (a+b <= N):
+                if (a == 1):
+                    #print(b)
+                    f = 1.0 - Q[b+1][b+1]
+                    ans = 1.0 / f
+                    for m in range(1, b):
+                        ans += (N-m) / N * Q[b][m] / f * gamma_const[a][m]
+                    gamma_const[a][b] = ans
+                else:
+                    ans = 0.0
+                    for j in range(1,a+1):
+                        f = 1.0
+                        for i in range(j):
+                            f *= 1. * (N - b - i) / (N - i)
+                        for k in range(1,b+1):
+                            if (j != a) | (k != b):
+                                ans += Q[a][j]*Q[b][k] * f / (1 - Q[a+b][a+b]) * gamma_const[j][k]
+                                f *= 1. * (N - j - k) / (N - k)
+                    gamma_const[a][b] = ans
+    return(gamma_const)
+
+
+
+
+
+
 

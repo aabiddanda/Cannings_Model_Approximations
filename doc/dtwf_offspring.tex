@@ -22,6 +22,7 @@ Here we aim to address two particular questions :
 \begin{itemize}
 	\item What is the relationship of the variance in the offspring distribution to deviations from coalescent expectations?
 	\item How might the variance in the offspring distribution affect deviations from the coalescent in the face of large sample sizes that violate $n \leq O(\sqrt{N})$?
+	\item Might it be possible under very large sample sizes ($n > O(\sqrt{N})$) to model genetic variation (SFS) as coming from another coalescent process which accounts for multiple mergers?
 \end{itemize}
 
 Intuitively the more multiple-mergers you have within the ancestral process, the farther and farther from the Kingman coalescent process the ancestral limit of the discrete process will be. Indeed this has been theoretically quantified by M\"{o}hle \cite{Mohle2000} as:
@@ -41,15 +42,6 @@ Where $\nu_1$ is an exchangeable random variable detailing the largest family si
 And here time will be measured by $\frac{N}{Var(\nu_1)}$. We seek to impose different distributional assumptions on  $\nu = (\nu_1, ...,\nu_n)$ and look at the effects that it presents when looking at very large samples of individuals from a population. 
 
 \subsection{Initial Model}
-
-Here we formulate a model similar to that of Eldon and Wakeley\cite{Eldon2006} for a modified DTWF model according to the following forward-time algorithm:
-
-\begin{enumerate}
-	\item
-	\item 
-	\item
-\end{enumerate}
-
 
 
 \subsection{Probability of Lineage Reduction}
@@ -93,20 +85,11 @@ As originally shown by Kingman, a large family of models in which the offspring 
 	$$
 \end{proof}
 
-\subsubsection{Convergence to the Coalescent with Offspring Size}
 
-Here we adopt a similar model to that of Eldon and Wakeley in defining the distribution on $\nu_1$ as the following:
 
-$$
-p_{\nu_1}(v) =
-\begin{cases}
-	1 - N^{-\alpha} &, \text{if  } v = 1\\
-	N^{-\alpha} &, \text{if  } v = N\psi\\
-	0 &, \text{otherwise}
-\end{cases}
-$$
 
-\textbf{TODO} : finish this proof here for why we want to consider this.
+
+
 
 
 \end{document}

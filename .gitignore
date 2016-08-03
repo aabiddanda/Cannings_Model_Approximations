@@ -8,4 +8,4 @@ doc/*.aux
 doc/*.pdf
 doc/*.bbl
 doc/*.blg
-
+src/.ipynb_checkpoints
