@@ -51,7 +51,6 @@ def prob_mat_trunc(int n, int N_t1, double eps):
     @param t - number of DTWF generations to run until
     @param N - currently only handles constant popsize 
 '''
-# TODO : make the popsize a vector
 def nlft_dtwf(int n, int N, int t):
    prob = [0.0] * (n+1)
    prob[n] = 1.0

@@ -24,6 +24,6 @@ setup(ext_modules = cythonize(extensions))
 
 # Linking the Mac Module to 
 if system == 'Mac':
-    call(['mv', 'moran_lib.cpython-35m-darwin.so', 'moran_lib.so'])
-    call(['mv', 'coalescent_lib.cpython-35m-darwin.so', 'coalescent_lib.so'])
-    call(['mv', 'dtwf_lib.cpython-35m-darwin.so', 'dtwf_lib.so'])
+    call(['mv', 'moran_lib.cpython-37m-darwin.so', 'moran_lib.so'])
+    call(['mv', 'coalescent_lib.cpython-37m-darwin.so', 'coalescent_lib.so'])
+    call(['mv', 'dtwf_lib.cpython-37m-darwin.so', 'dtwf_lib.so'])
