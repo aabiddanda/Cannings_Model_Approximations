@@ -1,13 +1,17 @@
-Cannings Model Deviations
--------------------------
+# Cannings-Models Approximation
 
-Rotation project to explore deviations from the Coalescent under various discrete-time Models.
 
-Current directions include:
 
-1. Quantifying Deviations from the Coalescent between the Wright-Fisher Model and the Moran Model
+## Requirements
 
-2. 
+All of the requirements are spectified in `requirements.txt` and can be installed via:
 
-For more information on either of these directions please see the [doc] folder
+```bash
+pip3 install -r requirements.txt
+```
 
+## Regenerating Plots
+
+In order to regenerate the various plots, we have provided a `snakemake` file that allows for regeneration of 
+
+## Regenerating Report
