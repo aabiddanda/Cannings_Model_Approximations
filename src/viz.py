@@ -25,7 +25,7 @@ def plot_figure1(n, t, N, outfile, xlim=None):
     nl_moran = sum([i * ymoran[i] for i in range(n)])
     nl_dtwf = sum([i * ydtwf[i] for i in range(n)])
     print("E(NLFT | Moran) = %0.8f\nE(NLFT | DTWF) = %0.8f" % (nl_moran, nl_dtwf))
-    f, (ax1, ax2) = plt.subplots(1, 2, figsize=(6,3), sharey=True)
+    f, (ax1, ax2) = plt.subplots(1, 2, figsize=(4,2), sharey=True)
     ax1.bar(x, ymoran, linewidth=0, align="center")
     ax2.bar(x, ydtwf, linewidth=0, align="center")
     ax1.set_title("Moran Model")

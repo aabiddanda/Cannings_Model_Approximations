@@ -2,9 +2,11 @@
 rule all:
 	input:
 		'plots/figure1_n100_N10000.pdf',
+		'plots/figure1_n250_N20000.pdf',
+		'plots/figure1_n25_N200.pdf',
 		'plots/figure1_n1000_N10000.pdf',
 		'plots/figure2.pdf',
-		'plots/figure3.pdf',
+		# 'plots/figure3.pdf',
 
 
 rule build_libraries:
@@ -61,8 +63,8 @@ rule moran_figure1:
 
 rule moran_figure2:
 	input:
-		coal_nlft = expand('data/nlft/nlft_coal_{n}_{time}.txt', n=[20,200,2000], time=10000),
-		moran_nlft = expand('data/nlft/nlft_moran_{n}_{time}.txt', n=[20,200,2000], time=10000)
+		coal_nlft = expand('data/nlft/nlft_coal_{n}_{time}.txt', n=[20,200,2000], time=100000),
+		moran_nlft = expand('data/nlft/nlft_moran_{n}_{time}.txt', n=[20,200,2000], time=100000)
 	output:
 		pdf = 'plots/figure2.pdf'
 	shell:

@@ -23,11 +23,5 @@ moran_figure5:
 moran_figure6:
 	python3 ../src/viz.py -figure4 -dtwffiles ../data/moran_figure5/nlft_dtwf_2000_1e6gen.txt -moranfiles ../data/moran_figure3/nlft_moran_2000_1e6.txt -coalfiles ../data/moran_figure3/nlft_coal_2000_1e6.txt -N 20000 -o ../plots/moran_figure6.eps -legend DTWF Moran
 
-dtwf_properties:
-	xelatex dtwf_offspring
-	bibtex dtwf_offspring
-	xelatex dtwf_offspring
-	xelatex dtwf_offspring
-
 clean:
 		rm -f *.log *.out *.aux *.pdf *.bak *.toc *.vrb *.nav *.snm *.bbl *.blg
