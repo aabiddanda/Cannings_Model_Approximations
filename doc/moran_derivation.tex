@@ -1,4 +1,4 @@
-\documentclass[11pt, twocolumn]{article}
+\documentclass[11pt]{article}
 
 \usepackage{amssymb, amsmath, lineno, enumitem, float, cuted}
 \usepackage{graphicx}
@@ -45,7 +45,7 @@ Initially we want to derive the probability that the number of lineages is reduc
 \end{equation}
 % \end{strip}
 
-Where as $t$ is increases, we are moving farther back in time (e.g. the ($t+1)^{th}$ generation is gene generation immediately before the $t^{th}$). The rationale for the derivation is that in order to reduce the number of lineages by 1, we must pick one of $n$ individuals to then be ``replaced'' by one of $n-1$ individuals. This is a very simplistic representation of the Moran model and can be extended to support a higher birth rate (which can potentially yield multiple mergers). We plan to discuss these more general forms in greater detail towards the end of the analysis. 
+where as $t$ is increases we are moving farther back in time (e.g. the ($t+1)^{th}$ generation is gene generation immediately before the $t^{th}$). The rationale is that in order to reduce the number of lineages by 1, we must pick one of $n$ individuals to then be ``replaced'' by one of $n-1$ individuals. This is a simple representation of the Moran model and can be extended to support a higher birth rate (which can potentially yield multiple mergers).
 
 We can then extend this to $p^{(t, t')}_{n,m}$, or the probability that $n$ samples in generation $t$ have $m$  ancestors in generation $t'$. Due to the construction of the Moran Model, we are required to bound the quantity $m$ such that $n - t' \leq m \leq n$, otherwise the probability is $0$. Using this bound, we obtain the following recursion :
 
