@@ -1,6 +1,6 @@
 
-''' 
-	Probability that n individuals at generation t have m 
+'''
+	Probability that n individuals at generation t have m
 		distinct ancestors at time t+1
 	@param n : number of current lineages in generation (t)
 	@param N_t1 : population size at generation (t+1)
@@ -32,7 +32,7 @@ def prob_mat(int n, int N_t1):
         while j <= i:
             Q[i][j] = Q[i-1][j-1]*(N_t1 - j + 1.0) / N_t1 + Q[i-1][j]*j / N_t1
             j += 1
-        i += 1 
+        i += 1
     return(Q)
 
 '''
@@ -44,12 +44,11 @@ def prob_mat_trunc(int n, int N_t1, double eps):
     pass
 
 
-# TODO : develop this a little bit more
 '''
     Compute the number of lineages as a function of time
     @param n - original number of lineages
     @param t - number of DTWF generations to run until
-    @param N - currently only handles constant popsize 
+    @param N - currently only handles constant popsize
 '''
 def nlft_dtwf(int n, int N, int t):
    prob = [0.0] * (n+1)
@@ -65,7 +64,7 @@ def nlft_dtwf(int n, int N, int t):
                new_prob[m] += mat[k][m] * prob[k]
        prob = new_prob
        E_NLFT = sum([i*prob[i] for i in range(1,n+1)])
-       print("%d\t%0.8f" % (t1,E_NLFT))
+       print(f"{t1}\t{E_NLFT}")
        t1 += 1
 
 
@@ -77,17 +76,15 @@ def nlft_dtwf(int n, int N, int t):
     @param N - the current (constant) population size
     @param Q - lineage transition matrix
 '''
-# TODO : should define a truncated version 
+# TODO : should define a truncated version
 def calc_gamma_const(int maxA, int n,  int N, Q):
     gamma_const = [[0.0]*(n+1) for i in range(min(maxA,N)+1)]
     cdef int a,b
     cdef double f, ans
-    #gamma_const[1][1] = N
     for a in range(1, min(maxA,N) + 1):
         for b in range(1, n+1):
             if (a + b <= n) & (a+b <= N):
                 if (a == 1):
-                    #print(b)
                     f = 1.0 - Q[b+1][b+1]
                     ans = 1.0 / f
                     for m in range(1, b):
@@ -105,10 +102,3 @@ def calc_gamma_const(int maxA, int n,  int N, Q):
                                 f *= 1. * (N - j - k) / (N - k)
                     gamma_const[a][b] = ans
     return(gamma_const)
-
-
-
-
-
-
-

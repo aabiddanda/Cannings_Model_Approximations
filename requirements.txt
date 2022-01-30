@@ -3,4 +3,3 @@ Markdown>=2.6.0
 matplotlib>=1.4.0
 numpy>=1.9.3
 snakemake>=6.0.0
-

@@ -1,10 +1,8 @@
-"""
-    General Utility functions for genealogical quantities
-"""
+"""Utility functions for genealogical quantities."""
 
 
-# Create an epoch class that should help out
 def readDTWF(dtwffile):
+    """Read and print out population sizes from a DTWF file."""
     popsizes = []
     gens = []
     final_size = 0
@@ -17,7 +15,4 @@ def readDTWF(dtwffile):
             time_length = int(lnsplt[0])
             gens.append(time_length)
             popsizes.append(int(lnsplt[1]))
-    print(final_size)
-    print(gens)
-    print(popsizes)
     return popsizes

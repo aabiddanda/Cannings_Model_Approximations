@@ -1,6 +1,6 @@
 
 moran_derivation:
-		xelatex moran_derivation	
+		xelatex moran_derivation
 		bibtex moran_derivation
 		xelatex moran_derivation
 		xelatex moran_derivation

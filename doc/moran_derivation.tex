@@ -28,13 +28,13 @@ There are many definitions for the Moran Model, but we will adopt the model acco
 	\item Choose one individual (it may be the same individual) to reproduce and have 2 offspring
 \end{enumerate}
 
-Note that this differs from the properties of the Discrete-Time Wright-Fisher (DTWF) model as multiple-mergers are not allowed within a generation. However, all of the other relevant genealogical properties are available for interrogation. 
+Note that this differs from the properties of the Discrete-Time Wright-Fisher (DTWF) model as multiple-mergers are not allowed within a generation. However, all of the other relevant genealogical properties are available for interrogation.
 
 \subsection{Probability of Lineage Reduction}
 Initially we want to derive the probability that the number of lineages is reduced from $n$ to $m$ from the $t^{\text{th}}$ to the $(t+1)^{\text{th}}$ generation :
 
 \begin{equation}
-	p^{(t)}_{n,m} = 
+	p^{(t)}_{n,m} =
 	\begin{cases} 1 - \frac{n(n-1)}{N^2_{t+1}}  & \text{if $m = n$,}
 		\\
 		\frac{n(n-1)}{N^2_{t+1}} &\text{if $ m = n - 1$,}
@@ -54,9 +54,9 @@ We can then extend this to $p^{(t, t')}_{n,m}$, or the probability that $n$ samp
 \end{aligned}
 \end{equation}
 
-The recursion holds when $t' \geq t$. This recursion relation allows us to look at lengths of time that are longer than a single generation and understand the long range time-scaling of the process needed to compare the Moran Model to the coalescent.  
+The recursion holds when $t' \geq t$. This recursion relation allows us to look at lengths of time that are longer than a single generation and understand the long range time-scaling of the process needed to compare the Moran Model to the coalescent.
 
-We expect that when the sample size gets larger, the proportion of lineages that are lost successively in the generations of the Moran model will be larger. See \ref{fig:1} for a direct comparison of the probability of $m$ descendents under the Moran Model with time scaled to equal a generation in the DTWF model. 
+We expect that when the sample size gets larger, the proportion of lineages that are lost successively in the generations of the Moran model will be larger. See \ref{fig:1} for a direct comparison of the probability of $m$ descendents under the Moran Model with time scaled to equal a generation in the DTWF model.
 
 \subsection{The Expected Number of Lineages as a Function of Time under the Moran Model}
 
@@ -64,7 +64,7 @@ Now we can think of time $t$ in much larger steps (e.g. in increments of $t^*$) 
 
 \begin{equation}
  \mathbb{P}[A^M_n(t) = m] =
- \begin{cases} 
+ \begin{cases}
 	 \sum^n_{k=m}  p^{(t-t^*, t)}_{k,m} \mathbb{P}[A^M_n (t-t^*) = k],  &\text{if $t > 0$,}
  	 \\
 	 \delta_{n,m} &\text{if $t = 0$}
@@ -132,7 +132,7 @@ Where $n_{(i)}$ and $n^{(i)}$ are the falling and rising factorials respectively
 % 		\begin{subfigure}[t]{\textwidth}
 % 			\begin{center}
 % 			\includegraphics[scale=0.72]{../plots/moran_figure4}
-% 			\end{center}	
+% 			\end{center}
 % 		\end{subfigure}
 % 		\caption{Plots of the percent difference in the NLFT under the Moran model compared to the Coalescent. The top panel is with a constant population size of $N=20000$ and the bottom is with a constant population size of $N=2000$. The general patterns are similar for a given fraction $(\frac{n}{N})$ that the sample size represents, although there tend to be larger maximum deviations in the case of smaller population size. This makes sense because in smaller population sizes we are farther from the diffusion limit under which the Coalescent is an appropriate approximation to the ancestral process.}
 % 	\end{figure}
@@ -153,11 +153,9 @@ Where $n_{(i)}$ and $n^{(i)}$ are the falling and rising factorials respectively
 % 		\begin{center}
 % 			\includegraphics[scale=0.80]{../plots/moran_figure6}
 % 		\end{center}
-% 		\caption{Difference in Expected NLFT between the DTWF and the Moran Model. The expressions being compared here are $\frac{\mathbb{E}(A^M) - \mathbb{E}(A^C)}{\mathbb{E}(A^M)}$ and $\frac{\mathbb{E}(A^D) - \mathbb{E}(A^C)}{\mathbb{E}(A^D)}$. Note that the deviation from the coalescent expectation is much larger in the DTWF model as opposed to the Moran Model. } 
-% 	\end{figure}	
+% 		\caption{Difference in Expected NLFT between the DTWF and the Moran Model. The expressions being compared here are $\frac{\mathbb{E}(A^M) - \mathbb{E}(A^C)}{\mathbb{E}(A^M)}$ and $\frac{\mathbb{E}(A^D) - \mathbb{E}(A^C)}{\mathbb{E}(A^D)}$. Note that the deviation from the coalescent expectation is much larger in the DTWF model as opposed to the Moran Model. }
+% 	\end{figure}
 % \end{center}
 
 
 \end{document}
-
-

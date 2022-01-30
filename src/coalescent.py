@@ -1,8 +1,7 @@
-"""
-    Computing Genealogical Properties under the Coalescent
-"""
+"""Script computing genealogical properties under the Coalescent."""
 
 import argparse as arg
+
 import coalescent_lib as coal
 
 if __name__ == "__main__":

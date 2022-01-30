@@ -6,7 +6,7 @@
 from libc.math cimport exp
 
 
-# TODO : set up some sort of epoch class here that we can setup files for 
+# TODO : set up some sort of epoch class here that we can setup files for
     # - this way we can actually test piecewise exponential models in coalescent time
 
 '''
@@ -43,7 +43,7 @@ def computeNLFTCoalescent(n, t, N, factors=None):
             expectedValue += exp(-1. * j * (j-1.) / 2. * omega) * factors[j]
             var += exp(-1. * j * (j-1.)/2. * omega) * (j**2. - j + 1.) * factors[j]
         var -= expectedValue**2.
-        print("%d\t%0.8f\t%0.8f" % (i,expectedValue,var))
+        print(f"{i}\t{expectedValue}\t{var}")
 
 # Equation 12 from Polanski and Kimmel (Genetics 2003)
 cdef computeV(int n):
@@ -62,7 +62,7 @@ cdef computeW(int n, int b):
     w = [0] * (n+1)
     w[2] = 6. / (n + 1.)
     w[3] = 30. / (n + 1.) * (n - 2.*b) / (n + 2.)
-    cdef j
+    cdef int j;
     for j in range(2, n-2+1):
         coef1 = - (1. + j) / j * (3. + 2.*j) / (2.*j - 1)  * (n - j) / (n + j + 1.)
         coef2 = (3. + 2.*j) * (n - 2.*b) / j / (n + j + 1.)
@@ -73,6 +73,7 @@ cdef computeW(int n, int b):
 # TODO : note right now it is just handling constant popsize in a Moran scaling...
 cdef computeEj(int n, N):
     Ej = [0.] * (n+1)
+    cdef int j
     for j in range(2,n+1):
         jchoose2 = j*(j-1)/2
         # Note : this is just the constant case for now!
@@ -82,10 +83,9 @@ cdef computeEj(int n, N):
     return(Ej)
 
 
-# Computes the first maxA entries of the normalized SFS for a sample of size n 
+# Computes the first maxA entries of the normalized SFS for a sample of size n
 # Eq (8) in Polanski and Kimmel (Genetics 2003)
 def computeSFSHelper(int n, int maxA, int N):
-    # precomputing some stuff
     Ej = computeEj(n, N)
     V = computeV(n)
     den = sum([Ej[j] * V[j] for j in range(2,n+1)])
@@ -104,4 +104,3 @@ def computeSFSNormalized(n, maxA, N):
 def computeSFSUnNormalized(n, maxA, N):
     sfs = computeSFSHelper(n, maxA, N)
     return(sfs['sfs'])
-

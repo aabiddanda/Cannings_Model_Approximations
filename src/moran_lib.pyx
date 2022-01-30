@@ -3,7 +3,7 @@
     Library for computing geneological quantities under the Moran Model
 '''
 
-import numpy as np 
+import numpy as np
 
 '''
     Function to compute probability of m ancestors in Moran Model
@@ -28,11 +28,11 @@ cdef double prob_lineages(int n, int m, int N):
     @param n - current sample size
     @param t - duration (in Moran generations)
     @param N - constant population size for duration
-    @param acc (optional) - previous probabilities 
+    @param acc (optional) - previous probabilities
 '''
 def prob_lineages_step(int n, int t, int N, acc=None):
     if acc is None:
-        acc = [0.] * (n+1) 
+        acc = [0.] * (n+1)
         acc[n] = 1.
     if len(acc) != n+1:
         raise ValueError('Dimension mismatch in probability vector')
@@ -81,15 +81,3 @@ def gamma_constant(int N, int a, int b):
 '''
 def readMoranModel():
     pass
-
-
-
-
-
-
-
-
-
-
-
-

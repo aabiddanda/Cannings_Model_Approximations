@@ -1,31 +1,29 @@
-import matplotlib.pyplot as plt
+"""Library of vizualization and plotting functions."""
+
 import argparse as arg
 
-import moran_lib as mp
 import dtwf_lib as dtwf
-
+import matplotlib.pyplot as plt
+import moran_lib as mp
 
 # Setting Matplotlib preferences
 plt.rc("text", usetex=True)
 plt.rc("font", family="serif")
 plt.rc("figure", autolayout=True)
 
-"""
-    Function to compute the densities of lineages lost in 
-        one generation under both the Moran and DTWF model
-"""
+
 def plot_figure1(n, t, N, outfile, xlim=None):
+    """Densities of lineages lost in one generation in Moran and DTWF models."""
     ymoran = mp.prob_lineages_step(n, t, N[0])
     ydtwf = dtwf.prob_anc(n, N[0])
-    l = len(ymoran)
-    ymoran = ymoran[1:l]
-    ydtwf = ydtwf[1:l]
+    l_len = len(ymoran)
+    ymoran = ymoran[1:l_len]
+    ydtwf = ydtwf[1:l_len]
     x = [i for i in range(1, n + 1)]
-    # Computing Expectations
     nl_moran = sum([i * ymoran[i] for i in range(n)])
     nl_dtwf = sum([i * ydtwf[i] for i in range(n)])
-    print("E(NLFT | Moran) = %0.8f\nE(NLFT | DTWF) = %0.8f" % (nl_moran, nl_dtwf))
-    f, (ax1, ax2) = plt.subplots(1, 2, figsize=(4,2), sharey=True)
+    print(f"E(NLFT | Moran) = {nl_moran}\nE(NLFT | DTWF) = {nl_dtwf}")
+    f, (ax1, ax2) = plt.subplots(1, 2, figsize=(4, 2), sharey=True)
     ax1.bar(x, ymoran, linewidth=0, align="center")
     ax2.bar(x, ydtwf, linewidth=0, align="center")
     ax1.set_title("Moran Model")
@@ -40,15 +38,13 @@ def plot_figure1(n, t, N, outfile, xlim=None):
     plt.savefig(outfile, bbox_inches="tight", dpi=300)
 
 
-"""
-    Helper function to read from NLFT output files
-    Note : currently only reads out the expectations
-        - TODO : read the variances as well too
-"""
+# NOTE: should use pandas for this?
 def read_nlft(filelist):
-    l = len(filelist)
+    """Read NLFT output files."""
+    n_files = len(filelist)
+    assert n_files > 0
     E_NLFT = []
-    for i in range(0, l):
+    for i in range(0, n_files):
         cur_nlft = []
         with open(filelist[i]) as f:
             next(f)
@@ -59,23 +55,23 @@ def read_nlft(filelist):
     return E_NLFT
 
 
-"""
-    Comparing coalescent predictions to discrete Moran Model 
-    @param outfile - actual output eps file
-    @param moranfiles - nlft output from moran.py
-    @param coalfiles - nlft output from coalescent.py
-    @param legend - labels to give legend (i.e. sample sizes)
-"""
-
-
 def plot_figure2(outfile, moranfiles, coalfiles, legend):
+    """Compare coalescent predictions to discrete Moran Model.
+
+    Parameters:
+        outfile - actual output eps/pdf/png file
+        moranfiles - nlft output from moran.py
+        coalfiles - nlft output from coalescent.py
+        legend - labels to give legend (i.e. sample sizes)
+
+    """
     assert len(moranfiles) == len(coalfiles)
     coal_exp = read_nlft(coalfiles)
     moran_exp = read_nlft(moranfiles)
     t = [i for i in range(1, len(coal_exp[0]) + 1)]
-    for l in range(len(coal_exp)):
-        cur_coal_exp = coal_exp[l]
-        cur_moran_exp = moran_exp[l]
+    for x in range(len(coal_exp)):
+        cur_coal_exp = coal_exp[x]
+        cur_moran_exp = moran_exp[x]
         cur_error = [
             (cur_moran_exp[i] - cur_coal_exp[i]) / cur_moran_exp[i] * 100.0
             for i in range(len(cur_moran_exp))
@@ -87,17 +83,17 @@ def plot_figure2(outfile, moranfiles, coalfiles, legend):
     plt.savefig(outfile, bbox_inches="tight", dpi=300)
 
 
-"""
-    Compares the NLFT between DTWF and the Moran Model
-    @param outfile - the output file
-    @param moranfiles - list of moranfiles to read
-    @param dtwffiles - list of nlft files under the dtwf
-    @param N - constant population size (TODO : will change this soon)
-    @param legend - list of strings showing the legend
-"""
-
-
 def plot_figure3(outfile, moranfiles, dtwffiles, N, legend):
+    """Compare the NLFT between DTWF and the Moran Model.
+
+    Parameters:
+        - outfile - the output png/pdf/eps file
+        - moranfiles - list of moranfiles to read
+        - dtwffiles - list of nlft files under the dtwf
+        - N - constant population size (TODO : will change this soon)
+        - legend - list of strings showing the legend
+
+    """
     assert len(moranfiles) == len(dtwffiles)
     moran_exp = read_nlft(moranfiles)
     dtwf_exp = read_nlft(dtwffiles)
@@ -105,7 +101,7 @@ def plot_figure3(outfile, moranfiles, dtwffiles, N, legend):
     incr = int(N / 2)
     tot = int(len(t) / incr)
     t_dtwf = [i * incr for i in range(1, tot + 1)]
-    fig, ax = plt.subplots(1,1,figsize=(4,4))
+    fig, ax = plt.subplots(1, 1, figsize=(4, 4))
     for j in range(len(dtwffiles)):
         cur_dtwf_exp = dtwf_exp[j]
         cur_moran_exp = moran_exp[j]
@@ -128,15 +124,15 @@ def plot_figure3(outfile, moranfiles, dtwffiles, N, legend):
     ax.set_ylim([min(error) - 0.5, max(error) + 0.5])
     ax.legend(legend, loc="lower right")
     ax.set_xlabel(r"\textit{t}")
-    ax.set_ylabel(r"$\frac{E[A_n^D(t)] - E[A_n^M(t)]}{E[A_n^D(t)]} \times 100\%$")
+    ax.set_ylabel(
+        r"$\frac{E[A_n^D(t)] - E[A_n^M(t)]}{E[A_n^D(t)]} \times 100\%$"
+    )  # noqa
     plt.tight_layout()
     ax.savefig(outfile, bbox_inches="tight", dpi=300)
 
 
-"""
-    Plots nlft of dtwf and the moran model normalized by the coalescent rate
-"""
 def plot_figure4(outfile, moranfiles, dtwffiles, coalfiles, N, legend):
+    """Plot nlft of dtwf and the moran model normalized by the coalescent rate."""
     assert len(moranfiles) == len(dtwffiles)
     assert len(dtwffiles) == len(coalfiles)
     moran_exp = read_nlft(moranfiles)
@@ -153,15 +149,16 @@ def plot_figure4(outfile, moranfiles, dtwffiles, coalfiles, N, legend):
         dtwf_error = []
         moran_error = []
         for i in range(0, len(cur_dtwf_exp)):
-            cur_dtwf_error = (cur_dtwf_exp[i] - cur_coal_exp[incr + i * incr - 1]) / (
-                cur_dtwf_exp[i]
-            )
+            cur_dtwf_error = (
+                (cur_dtwf_exp[i] - cur_coal_exp[incr + i * incr - 1]) / cur_dtwf_exp[i]
+            )  # noqa
             cur_moran_error = (
-                cur_moran_exp[incr + i * incr - 1] - cur_coal_exp[incr + i * incr - 1]
-            ) / (cur_moran_exp[incr + i * incr - 1])
+                (cur_moran_exp[incr + i * incr - 1] - cur_coal_exp[incr + i * incr - 1])
+                / cur_moran_exp[incr + i * incr - 1]
+            )  # noqa
             dtwf_error.append(cur_dtwf_error * 100.0)
             moran_error.append(cur_moran_error * 100.0)
-            print("%d\t%0.8f\t%0.8f" % (i, cur_dtwf_error, cur_moran_error))
+            print(f"{i}\t{cur_dtwf_error}\t{cur_moran_error}")
         plt.plot(t_dtwf, dtwf_error)
         plt.plot(t_dtwf, moran_error)
     plt.ylim([min(dtwf_error) - 0.01, 0.01])

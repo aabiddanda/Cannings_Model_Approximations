@@ -1,8 +1,9 @@
+"""Setup script for Cython Modules (currently only Mac)."""
 from distutils.core import setup
 from distutils.extension import Extension
-from Cython.Build import cythonize
 from subprocess import call
-import numpy
+
+from Cython.Build import cythonize
 
 system = "Mac"
 
@@ -14,7 +15,7 @@ extensions = [
 ]
 setup(ext_modules=cythonize(extensions))
 
-# Linking the Mac Module to
+# Linking the Mac Module to a general library
 if system == "Mac":
     call(["mv", "moran_lib.cpython-37m-darwin.so", "moran_lib.so"])
     call(["mv", "coalescent_lib.cpython-37m-darwin.so", "coalescent_lib.so"])
