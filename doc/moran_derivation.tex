@@ -1,13 +1,13 @@
-\documentclass[11pt]{article}
+\documentclass[10.5pt]{article}
 
 \usepackage{amssymb, amsmath, lineno, enumitem, float, cuted}
 \usepackage{graphicx}
 \usepackage[round, authoryear]{natbib}
-% \usepackage{epstopdf}
+\usepackage{epstopdf}
 \usepackage{caption}
 \usepackage{subcaption}
 \usepackage{wrapfig}
-\usepackage[margin=1in]{geometry}
+\usepackage[margin=0.5in]{geometry}
 \title{Genealogical Properties in the Moran Model with Large Sample Size}
 \author{Arjun Biddanda}
 \date{\today}
@@ -17,7 +17,7 @@
 \begin{document}
 \maketitle
 
-\section{Initial Derivations}
+\section{Derivations under the Moran Model}
 
 \subsection{Definitions and Notation}
 
@@ -33,7 +33,6 @@ Note that this differs from the properties of the Discrete-Time Wright-Fisher (D
 \subsection{Probability of Lineage Reduction}
 Initially we want to derive the probability that the number of lineages is reduced from $n$ to $m$ from the $t^{\text{th}}$ to the $(t+1)^{\text{th}}$ generation :
 
-% \begin{strip}
 \begin{equation}
 	p^{(t)}_{n,m} = 
 	\begin{cases} 1 - \frac{n(n-1)}{N^2_{t+1}}  & \text{if $m = n$,}
@@ -43,7 +42,6 @@ Initially we want to derive the probability that the number of lineages is reduc
 		0 &\text{else.}
 	\end{cases}
 \end{equation}
-% \end{strip}
 
 where as $t$ is increases we are moving farther back in time (e.g. the ($t+1)^{th}$ generation is gene generation immediately before the $t^{th}$). The rationale is that in order to reduce the number of lineages by 1, we must pick one of $n$ individuals to then be ``replaced'' by one of $n-1$ individuals. This is a simple representation of the Moran model and can be extended to support a higher birth rate (which can potentially yield multiple mergers).
 
@@ -58,13 +56,12 @@ We can then extend this to $p^{(t, t')}_{n,m}$, or the probability that $n$ samp
 
 The recursion holds when $t' \geq t$. This recursion relation allows us to look at lengths of time that are longer than a single generation and understand the long range time-scaling of the process needed to compare the Moran Model to the coalescent.  
 
-We expect that when the sample size gets larger, the proportion of lineages that are lost successively in the generations of the Moran model will be larger. See Figure 1 for a direct comparison of the probability of $m$ descendents under the Moran Model with time scaled to equal the a generation in the DTWF model. 
+We expect that when the sample size gets larger, the proportion of lineages that are lost successively in the generations of the Moran model will be larger. See \ref{fig:1} for a direct comparison of the probability of $m$ descendents under the Moran Model with time scaled to equal a generation in the DTWF model. 
 
 \subsection{The Expected Number of Lineages as a Function of Time under the Moran Model}
 
 Now we can think of time $t$ in much larger steps (e.g. in increments of $t^*$) such that we can now define the probability of having $m$ ancestral lineages, abbreviated NLFT (conditional on $n$ lineages at time $t = 0$). These results directly mirror those of Bhaskar et al \citet{Bhaskar2014}, but now with the recursion derived for the Moran Model:
 
-\begin{strip}
 \begin{equation}
  \mathbb{P}[A^M_n(t) = m] =
  \begin{cases} 
@@ -73,7 +70,6 @@ Now we can think of time $t$ in much larger steps (e.g. in increments of $t^*$) 
 	 \delta_{n,m} &\text{if $t = 0$}
  \end{cases},
 \end{equation}
-\end{strip}
 
 where $\delta$ is $1$ when $n = m$ and $0$ elsewhere. From this, we can directly calculate the expected NLFT in the Moran Model as:
 
@@ -81,27 +77,17 @@ where $\delta$ is $1$ when $n = m$ and $0$ elsewhere. From this, we can directly
 	 \mathbb{E}[A^M_n(t)] = \sum^n_{m=1} m \mathbb{P}[A^M_n (t) = m]
  \end{equation}
 
-% \begin{strip}
-\begin{wrapfigure}{L}{0.5\textwidth}
-	\begin{center}
-	\includegraphics[width=0.5\textwidth]{../plots/figure1_n250_N20000.pdf}
-	\caption{The distribution of parental lineages in the Moran Model and the Discrete-Time Wright-Fisher (DTWF) model. For both scenarios we maintained a constant population size of $N = 20000$ and a sample size of $n=250$. The results in the right pane correspond exactly to Supplementary Figure 2 in \citet{Bhaskar2014}. To compare the Moran model to the DTWF we only report after $N/2 = 20000/2 = 10000$ Moran generations based on the scaling result \citep{Wakeley2008}.}
-	\end{center}
-\end{wrapfigure}
-% \end{strip}
 
-
-\subsection*{Expected Number of Lineages Under the Coalescent}
+\subsection{Expected Number of Lineages Under the Coalescent}
 
 We use the moment-based method of \citet{Tavare1984} to compute the expected NLFT (with no mutation) under the Kingman coalescent:
 
 \begin{equation}
-	\mathbb{E}[A^C_n(t)] = \sum^n_{i=1} e^{-\binom{i}{2}\Omega(t)} (2i - 1) \frac{n_{(i)}}{n^{(i)}} 
+\begin{aligned}
+	\mathbb{E}[A^C_n(t)] &= \sum^n_{i=1} e^{-\binom{i}{2}\Omega(t)} (2i - 1) \frac{n_{(i)}}{n^{(i)}}\\
+	Var[A^C_n(t)] &= \sum^n_{i=1} e^{-\binom{i}{2}\Omega(t)}(2i-1)(i^2 - i + 1)\frac{n_{(i)}}{n^{(i)}} - \Bigg[\mathbb{E}[A^C_n(t)]\Bigg]^2
+\end{aligned}
 \end{equation}
-
-% \begin{equation}
-% 	Var[A^C_n(t)] = \sum^n_{i=1} e^{-\binom{i}{2}\Omega(t)}(2i-1)(i^2 - i + 1)\frac{n_{(i)}}{n^{(i)}} - \Bigg[\mathbb{E}[A^C_n(t)]\Bigg]^2
-% \end{equation}
 
 Where $n_{(i)}$ and $n^{(i)}$ are the falling and rising factorials respectively. Note that the $t$ measured here is in ``coalescent time'' and will need to be rescaled appropriately when considering the discrete generations that we have for our model. We can define the following function to denote the rescaling of time (following \citet{Bhaskar2014}):
 
@@ -113,10 +99,20 @@ Where $n_{(i)}$ and $n^{(i)}$ are the falling and rising factorials respectively
 \end{equation}
 
 
-
-
 \bibliographystyle{plainnat}
 \bibliography{moran}
+
+\section{Figures}
+
+\begin{figure}
+	\begin{center}
+	\captionsetup{width=0.75\textwidth}
+	\includegraphics[width=0.75\textwidth]{../plots/figure1_n250_N20000.pdf}
+	\caption{The distribution of parental lineages in the Moran Model and the Discrete-Time Wright-Fisher (DTWF) model. For both scenarios we maintained a constant population size of $N = 20000$ and a sample size of $n=250$. The results in the right pane correspond exactly to Supplementary Figure 2 in \citet{Bhaskar2014}. To compare the Moran model to the DTWF we only report after $N/2 = 20000/2 = 10000$ Moran generations based on the scaling result \citep{Wakeley2008}.}
+	\end{center}
+\end{figure}\label{fig:1}
+
+
 
 % \begin{center}
 % 	\begin{figure}[H]
