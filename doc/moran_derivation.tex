@@ -3,9 +3,9 @@
 \usepackage{amssymb, amsmath, lineno, enumitem, float, cuted}
 \usepackage{graphicx}
 \usepackage[round, authoryear]{natbib}
-\usepackage{epstopdf}
+% \usepackage{epstopdf}
 \usepackage{caption}
-\usepackage{subcaption}
+% \usepackage{subcaption}
 \usepackage{wrapfig}
 \usepackage[margin=0.5in]{geometry}
 \title{Genealogical Properties in the Moran Model with Large Sample Size}
@@ -54,7 +54,7 @@ We can then extend this to $p^{(t, t')}_{n,m}$, or the probability that $n$ samp
 \end{aligned}
 \end{equation}
 
-The recursion holds when $t' \geq t$. This recursion relation allows us to look at lengths of time that are longer than a single generation and understand the long range time-scaling of the process needed to compare the Moran Model to the coalescent.
+The recursion holds when $t' \geq t$. This recursion allows us to look at lengths of time that are longer than a single generation and understand the long range time-scaling of the process needed to compare the Moran Model, DTWF, and the coalescent.
 
 We expect that when the sample size gets larger, the proportion of lineages that are lost successively in the generations of the Moran model will be larger. See \ref{fig:1} for a direct comparison of the probability of $m$ descendents under the Moran Model with time scaled to equal a generation in the DTWF model.
 
@@ -102,60 +102,39 @@ Where $n_{(i)}$ and $n^{(i)}$ are the falling and rising factorials respectively
 \bibliographystyle{plainnat}
 \bibliography{moran}
 
+\newpage
 \section{Figures}
 
-\begin{figure}
-	\begin{center}
+\begin{figure}[H]
+	\centering
 	\captionsetup{width=0.75\textwidth}
 	\includegraphics[width=0.75\textwidth]{../plots/figure1_n250_N20000.pdf}
 	\caption{The distribution of parental lineages in the Moran Model and the Discrete-Time Wright-Fisher (DTWF) model. For both scenarios we maintained a constant population size of $N = 20000$ and a sample size of $n=250$. The results in the right pane correspond exactly to Supplementary Figure 2 in \citet{Bhaskar2014}. To compare the Moran model to the DTWF we only report after $N/2 = 20000/2 = 10000$ Moran generations based on the scaling result \citep{Wakeley2008}.}
-	\end{center}
 \end{figure}\label{fig:1}
 
 
-
-% \begin{center}
-% 	\begin{figure}[H]
-% 		\includegraphics[scale=0.85]{../plots/moran_figure2}
-% 		\caption{Comparing the distribution of parental lineages when the population size is relatively small ($N = 200$) with a sample size of $n=25$. We can see that under a smaller population size like this we can start to observe some differences in the ancestral DTWF model and the Moran model. Note that we have retained the same time scaling here as in the first figure as well.}
-% 	\end{figure}
-% \end{center}
-
-% \begin{center}
-% 	\begin{figure}[H]
-% 		\begin{subfigure}[t]{\textwidth}
-% 			\begin{center}
-% 			\includegraphics[scale=0.72]{../plots/moran_figure3}
-% 			\end{center}
-% 		\end{subfigure}
-% 		~
-% 		\begin{subfigure}[t]{\textwidth}
-% 			\begin{center}
-% 			\includegraphics[scale=0.72]{../plots/moran_figure4}
-% 			\end{center}
-% 		\end{subfigure}
-% 		\caption{Plots of the percent difference in the NLFT under the Moran model compared to the Coalescent. The top panel is with a constant population size of $N=20000$ and the bottom is with a constant population size of $N=2000$. The general patterns are similar for a given fraction $(\frac{n}{N})$ that the sample size represents, although there tend to be larger maximum deviations in the case of smaller population size. This makes sense because in smaller population sizes we are farther from the diffusion limit under which the Coalescent is an appropriate approximation to the ancestral process.}
-% 	\end{figure}
-% \end{center}
-
-% \begin{center}
-% 	\begin{figure}[H]
-% 		\begin{center}
-% 			\includegraphics[scale=0.80]{../plots/moran_figure5}
-% 		\end{center}
-% 		\caption{Difference in Expected NLFT between the DTWF and the Moran Model. Here we have scaled time appropriately since this is the constant sized case where $N=20000$ (e.g. $\mathbb{E}[A_n^D(1)]$ vs. $\mathbb{E}[A_n^{M}(10000)]$) This suggests a consistent difference in the NLFT (and likely the expected SFS) between the Moran and the DTWF model when the sample size gets exceedingly large. In the previous figures we see that under larger sample sizes the Moran model loses lineages at a faster rate than the Coalescent. This plot suggests that the DTWF model loses lineages at a faster rate than the Moran model (and therefore much more so than the Coalescent). The moran model is also known to converge to the Kingman Coalescent at a rate of $O(N^{-2})$, where the DTWF model is known to converge to the coalescent at rate $O(N^{-1})$}
-% 	\end{figure}
-% \end{center}
+\begin{figure}[H]
+	\centering
+	\captionsetup{width=0.75\textwidth}
+	\includegraphics[width=0.75\textwidth]{../plots/figure1_n50_N200.pdf}
+	\caption{Comparing the distribution of parental lineages when the population size is relatively small ($N = 200$) with a sample size of $n=50$ under the DTWF and Moran models. Under a smaller population size like this, we can start to observe differences in the ancestral DTWF model and the Moran model. Note that we have retained the same time scaling here as in the first figure as well.}
+\end{figure}\label{fig:2}
 
 
-% \begin{center}
-% 	\begin{figure}[!ht]
-% 		\begin{center}
-% 			\includegraphics[scale=0.80]{../plots/moran_figure6}
-% 		\end{center}
-% 		\caption{Difference in Expected NLFT between the DTWF and the Moran Model. The expressions being compared here are $\frac{\mathbb{E}(A^M) - \mathbb{E}(A^C)}{\mathbb{E}(A^M)}$ and $\frac{\mathbb{E}(A^D) - \mathbb{E}(A^C)}{\mathbb{E}(A^D)}$. Note that the deviation from the coalescent expectation is much larger in the DTWF model as opposed to the Moran Model. }
-% 	\end{figure}
-% \end{center}
+\begin{figure}[H]
+	\centering
+	\captionsetup{width=0.75\textwidth}
+	\includegraphics[width=0.75\textwidth]{../plots/figure3.pdf}
+	\caption{Difference in Expected NLFT between the DTWF and the Moran Model. Here we have scaled time appropriately since this is the constant sized case where $N=20000$ (e.g. $\mathbb{E}[A_n^D(1)]$ vs. $\mathbb{E}[A_n^{M}(10000)]$) This suggests a consistent difference in the NLFT (and likely the expected SFS) between the Moran and the DTWF model when the sample size gets exceedingly large. This plot suggests that the DTWF model loses lineages at a faster rate than the Moran model (and therefore much more so than the Coalescent). The Moran model is also known to converge to the Kingman Coalescent at a rate of $O(N^{-2})$, where the DTWF model is known to converge to the coalescent at rate $O(N^{-1})$}
+\end{figure}\label{fig:3}
+
+
+\begin{figure}[H]
+	\centering
+	\captionsetup{width=0.75\textwidth}
+	\includegraphics[width=0.75\textwidth]{../plots/figure4.pdf}
+	\caption{Normalized error in expected NLFT between the DTWF and the Moran Model. The expressions compared here are $\frac{\mathbb{E}(A^M) - \mathbb{E}(A^C)}{\mathbb{E}(A^M)}$ and $\frac{\mathbb{E}(A^D) - \mathbb{E}(A^C)}{\mathbb{E}(A^D)}$.}
+\end{figure}\label{fig:4}
 
 
 \end{document}

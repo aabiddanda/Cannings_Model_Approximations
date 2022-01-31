@@ -120,13 +120,13 @@ rule moran_figure3:
     input:
         moran_nlft=expand(
             "data/nlft/nlft_moran_n{n}_N{N}_{time}.txt.gz",
-            n=[20, 200],
+            n=[20, 200, 1000],
             N=10000,
             time=10000,
         ),
         dtwf_nlft=expand(
             "data/nlft/nlft_dtwf_n{n}_N{N}_{time}.txt.gz",
-            n=[20, 200],
+            n=[20, 200, 1000],
             N=10000,
             time=10000,
         ),
@@ -135,7 +135,7 @@ rule moran_figure3:
         pdf="plots/figure3.pdf",
     shell:
         """
-        python3 src/viz.py -figure3 -dtwffiles {input.dtwf_nlft} -moranfiles {input.moran_nlft} -N 10000 -o {output.pdf} -legend n=20 n=200
+        python3 src/viz.py -figure3 -dtwffiles {input.dtwf_nlft} -moranfiles {input.moran_nlft} -N 10000 -o {output.pdf} -legend n=20 n=200 n=1000
         """
 
 

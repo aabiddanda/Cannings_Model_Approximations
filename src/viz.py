@@ -86,7 +86,7 @@ def plot_figure3(outfile, moranfiles, dtwffiles, N, legend):
         - outfile - the output png/pdf/eps file
         - moranfiles - list of moranfiles to read
         - dtwffiles - list of nlft files under the dtwf
-        - N - constant population size (TODO : will change this soon)
+        - N - constant population size
         - legend - list of strings showing the legend
 
     """
@@ -96,7 +96,7 @@ def plot_figure3(outfile, moranfiles, dtwffiles, N, legend):
     t = [i for i in range(1, len(moran_exp[0]) + 1)]
     incr = int(N / 2)
     tot = int(len(t) / incr)
-    t_dtwf = [i * incr for i in range(1, tot + 1)]
+    t_dtwf = [i * incr for i in range(0, tot)]
     fig, ax = plt.subplots(1, 1, figsize=(4, 4))
     for j in range(len(dtwffiles)):
         cur_dtwf_exp = dtwf_exp[j]
@@ -114,8 +114,7 @@ def plot_figure3(outfile, moranfiles, dtwffiles, N, legend):
     ax.set_ylabel(
         r"$\frac{E[A_n^D(t)] - E[A_n^M(t)]}{E[A_n^D(t)]} \times 100\%$"
     )  # noqa
-    plt.tight_layout()
-    ax.savefig(outfile, bbox_inches="tight")
+    plt.savefig(outfile, bbox_inches="tight")
 
 
 def plot_figure4(outfile, moranfiles, dtwffiles, coalfiles, N, legend):

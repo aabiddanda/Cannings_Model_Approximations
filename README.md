@@ -4,7 +4,6 @@ This repository contains initial experiments exploring the implications of the d
 
 A large part of this was inspired by the influential paper by Bhaskar,Clark, and Song.
 
-
 ## Requirements
 
 All of the requirements are spectified in `requirements.txt` and can be installed via:
@@ -15,10 +14,17 @@ pip3 install -r requirements.txt
 
 ## Regenerating Plots
 
-In order to regenerate the various plots, we have provided a `snakemake` file that allows for regeneration of all of the various plots.
+In order to regenerate the various plots, we have provided a `snakemake` file that allows for regeneration of all of the various plots. To run the top-level simulations (they take ~15 minutes on a 2020 Macbook Air), run:
+
+```
+snakemake -j4 -p -n
+```
+
+, and remove the `-n` when actually running the pipeline.
 
 ## Regenerating Report
 
+To regenerate the LaTeX-based report, you can simply head into the `doc/` directory and run `make`, which should build the current report.
 
 # References
 
