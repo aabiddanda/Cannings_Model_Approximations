@@ -35,7 +35,7 @@ def prob_lineages_step(int n, int t, int N, acc=None):
         acc = [0.] * (n+1)
         acc[n] = 1.
     if len(acc) != n+1:
-        raise ValueError('Dimension mismatch in probability vector')
+        raise ValueError('Dimension mismatch in probability vector!')
     cdef int i,j
     for i in range(t):
         new_acc = [0.] * (n+1)
@@ -53,7 +53,7 @@ def nlft_moran(int n, int t, int delta, int N):
     curProb = [0.0] * (n+1)
     curProb[n] = 1.0
     timeSlice = range(delta, t+1, delta)
-    print("Gen\tNLFT\tVAR_NLFT")
+    print("Gen\tE_NLFT\tVAR_NLFT")
     for x in timeSlice:
         current_probs = prob_lineages_step(n, delta, N, acc = curProb)
         curProb = current_probs

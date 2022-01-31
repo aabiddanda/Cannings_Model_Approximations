@@ -38,4 +38,4 @@ if __name__ == "__main__":
             print(sfs)
     if args.nlft:
         N = [args.N] * (args.t + 1)
-        coal.computeNLFTCoalescent(args.n, args.t, N)
+        coal.nlft_coalescent(args.n, args.t, N)

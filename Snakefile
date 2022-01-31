@@ -1,9 +1,11 @@
+#!python3
+
 
 rule all:
     input:
         "plots/figure1_n250_N20000.pdf",
-        "plots/figure1_n25_N200.pdf",
-        "plots/figure2.pdf",
+        "plots/figure1_n50_N200.pdf",
+        # "plots/figure2.pdf",
         "plots/figure2a.pdf",
         "plots/figure3.pdf",
         "plots/figure4.pdf",
@@ -26,10 +28,10 @@ rule run_coal_nlft:
         coal_lib="src/coalescent_lib.so",
         coal_script="src/coalescent.py",
     output:
-        "data/nlft/nlft_coal_n{n}_N{N}_{time}.txt",
+        "data/nlft/nlft_coal_n{n}_N{N}_{time}.txt.gz",
     shell:
         """
-        python3 {input.coal_script} -n {wildcards.n} -N {wildcards.N} -t {wildcards.time} -nlft > {output}
+        python3 {input.coal_script} -n {wildcards.n} -N {wildcards.N} -t {wildcards.time} -nlft | gzip > {output}
         """
 
 
@@ -38,26 +40,28 @@ rule run_moran_nlft:
         moran_lib="src/moran_lib.so",
         moran_script="src/moran.py",
     output:
-        "data/nlft/nlft_moran_n{n}_N{N}_{time}.txt",
+        "data/nlft/nlft_moran_n{n}_N{N}_{time}.txt.gz",
     shell:
         """
-        python3 {input.moran_script} -n {wildcards.n} -N {wildcards.N} -t {wildcards.time} -nlft > {output}
+        python3 {input.moran_script} -n {wildcards.n} -N {wildcards.N} -t {wildcards.time} -nlft | gzip > {output}
         """
 
 
 rule run_dtwf_nlft:
     input:
-        moran_lib="src/dtwf_lib.so",
-        moran_script="src/dtwf.py",
+        dtwf_lib="src/dtwf_lib.so",
+        dtwf_script="src/dtwf.py",
     output:
-        "data/nlft/nlft_dtwf_n{n}_N{N}_{time}.txt",
+        "data/nlft/nlft_dtwf_n{n}_N{N}_{time}.txt.gz",
     shell:
         """
-        python3 {input.moran_script} -n {wildcards.n} -N {wildcards.N} -t {wildcards.time} -nlft > {output}
+        python3 {input.dtwf_script} -n {wildcards.n} -N {wildcards.N} -t {wildcards.time} -nlft | gzip > {output}
         """
 
 
 rule moran_figure1:
+    input:
+        rules.build_libraries.output,
     output:
         pdf="plots/figure1_n{n}_N{N}.pdf",
     shell:
@@ -69,17 +73,18 @@ rule moran_figure1:
 rule moran_figure2:
     input:
         coal_nlft=expand(
-            "data/nlft/nlft_coal_n{n}_N{N}_{time}.txt",
+            "data/nlft/nlft_coal_n{n}_N{N}_{time}.txt.gz",
             N=20000,
             n=[20, 200, 2000],
             time=1000000,
         ),
         moran_nlft=expand(
-            "data/nlft/nlft_moran_n{n}_N{N}_{time}.txt",
+            "data/nlft/nlft_moran_n{n}_N{N}_{time}.txt.gz",
             N=20000,
             n=[20, 200, 2000],
             time=1000000,
         ),
+        libraries=rules.build_libraries.output,
     output:
         pdf="plots/figure2.pdf",
     shell:
@@ -91,17 +96,18 @@ rule moran_figure2:
 rule moran_figure2a:
     input:
         coal_nlft=expand(
-            "data/nlft/nlft_coal_n{n}_N{N}_{time}.txt",
+            "data/nlft/nlft_coal_n{n}_N{N}_{time}.txt.gz",
             N=2000,
             n=[20, 200, 2000],
             time=1000000,
         ),
         moran_nlft=expand(
-            "data/nlft/nlft_moran_n{n}_N{N}_{time}.txt",
+            "data/nlft/nlft_moran_n{n}_N{N}_{time}.txt.gz",
             N=2000,
             n=[20, 200, 2000],
             time=1000000,
         ),
+        libraries=rules.build_libraries.output,
     output:
         pdf="plots/figure2a.pdf",
     shell:
@@ -113,14 +119,18 @@ rule moran_figure2a:
 rule moran_figure3:
     input:
         moran_nlft=expand(
-            "data/nlft/nlft_moran_n{n}_N{N}_{time}.txt",
+            "data/nlft/nlft_moran_n{n}_N{N}_{time}.txt.gz",
             n=[20, 200],
             N=10000,
             time=10000,
         ),
         dtwf_nlft=expand(
-            "data/nlft/nlft_dtwf_n{n}_N{N}_{time}.txt", n=[20, 200], N=10000, time=10000
+            "data/nlft/nlft_dtwf_n{n}_N{N}_{time}.txt.gz",
+            n=[20, 200],
+            N=10000,
+            time=10000,
         ),
+        libraries=rules.build_libraries.output,
     output:
         pdf="plots/figure3.pdf",
     shell:
@@ -132,24 +142,21 @@ rule moran_figure3:
 rule moran_figure4:
     input:
         dtwf_nlft=expand(
-            "data/nlft/nlft_dtwf_n{n}_N{N}_{time}.txt", n=[2000], N=20000, time=1000000
+            "data/nlft/nlft_dtwf_n{n}_N{N}_{time}.txt.gz", n=200, N=10000, time=1000000
         ),
         moran_nlft=expand(
-            "data/nlft/nlft_moran_n{n}_N{N}_{time}.txt", n=[2000], N=20000, time=1000000
+            "data/nlft/nlft_moran_n{n}_N{N}_{time}.txt.gz",
+            n=200,
+            N=10000,
+            time=1000000,
         ),
         coal_nlft=expand(
-            "data/nlft/nlft_coal_n{n}_N{N}_{time}.txt", n=[2000], N=20000, time=1000000
+            "data/nlft/nlft_coal_n{n}_N{N}_{time}.txt.gz", n=200, N=10000, time=1000000
         ),
+        libraries=rules.build_libraries.output,
     output:
         pdf="plots/figure4.pdf",
     shell:
         """
-        python3 src/viz.py -figure4 -dtwffiles {input.dtwf_nlft} -moranfiles {input.moran_nlft} -coalfiles {input.coal_nlft} -N 20000 -legend DTWF Moran -o {output.pdf}
+        python3 src/viz.py -figure4 -dtwffiles {input.dtwf_nlft} -moranfiles {input.moran_nlft} -coalfiles {input.coal_nlft} -N 10000 -legend DTWF Moran Coalescent -o {output.pdf}
         """
-
-
-# rule moran_figure4:
-# 	input:
-# 	python3 ../src/viz.py -figure2 -moranfiles ../data/moran_figure4/nlft_moran_20_1e6.txt ../data/moran_figure4/nlft_moran_200_1e6.txt ../data/moran_figure4/nlft_moran_2000_1e6.txt -coalfiles ../data/moran_figure4/nlft_coal_20_1e6.txt ../data/moran_figure4/nlft_coal_200_1e6.txt ../data/moran_figure4/nlft_coal_2000_1e6.txt  -legend n=20 n=200 n=2000 -o ../plots/moran_figure4.eps
-# moran_figure6:
-#   python3 ../src/viz.py -figure4 -dtwffiles ../data/moran_figure5/nlft_dtwf_2000_1e6gen.txt -moranfiles ../data/moran_figure3/nlft_moran_2000_1e6.txt -coalfiles ../data/moran_figure3/nlft_coal_2000_1e6.txt -N 20000 -o ../plots/moran_figure6.eps -legend DTWF Moran

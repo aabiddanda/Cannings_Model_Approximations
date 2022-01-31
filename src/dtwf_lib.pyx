@@ -36,15 +36,6 @@ def prob_mat(int n, int N_t1):
     return(Q)
 
 '''
-    @param n - current sample size
-    @param N_t1 - population size a gen in the past
-    @param eps - threshold on probabilities
-'''
-def prob_mat_trunc(int n, int N_t1, double eps):
-    pass
-
-
-'''
     Compute the number of lineages as a function of time
     @param n - original number of lineages
     @param t - number of DTWF generations to run until
@@ -66,8 +57,6 @@ def nlft_dtwf(int n, int N, int t):
        E_NLFT = sum([i*prob[i] for i in range(1,n+1)])
        print(f"{t1}\t{E_NLFT}")
        t1 += 1
-
-
 
 '''
     Calculating the branch length that subtends individuals:

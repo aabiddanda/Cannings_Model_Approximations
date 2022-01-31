@@ -5,6 +5,7 @@ import argparse as arg
 import dtwf_lib as dtwf
 import matplotlib.pyplot as plt
 import moran_lib as mp
+import pandas as pd
 
 # Setting Matplotlib preferences
 plt.rc("text", usetex=True)
@@ -24,8 +25,8 @@ def plot_figure1(n, t, N, outfile, xlim=None):
     nl_dtwf = sum([i * ydtwf[i] for i in range(n)])
     print(f"E(NLFT | Moran) = {nl_moran}\nE(NLFT | DTWF) = {nl_dtwf}")
     f, (ax1, ax2) = plt.subplots(1, 2, figsize=(4, 2), sharey=True)
-    ax1.bar(x, ymoran, linewidth=0, align="center")
-    ax2.bar(x, ydtwf, linewidth=0, align="center")
+    ax1.bar(x, ymoran, linewidth=0, align="center", color="blue")
+    ax2.bar(x, ydtwf, linewidth=0, align="center", color="blue")
     ax1.set_title("Moran Model")
     ax2.set_title("DTWF")
     ax1.set_ylabel(r"\textbf{Probability}")
@@ -35,22 +36,17 @@ def plot_figure1(n, t, N, outfile, xlim=None):
         ax1.set_xlim(xlim)
         ax2.set_xlim(xlim)
     plt.tight_layout()
-    plt.savefig(outfile, bbox_inches="tight", dpi=300)
+    plt.savefig(outfile, bbox_inches="tight")
 
 
-# NOTE: should use pandas for this?
 def read_nlft(filelist):
     """Read NLFT output files."""
     n_files = len(filelist)
     assert n_files > 0
     E_NLFT = []
-    for i in range(0, n_files):
-        cur_nlft = []
-        with open(filelist[i]) as f:
-            next(f)
-            for line in f:
-                e_nlft = float(line.split()[1])
-                cur_nlft.append(e_nlft)
+    for f in filelist:
+        cur_df = pd.read_csv(f, sep="\t")
+        cur_nlft = cur_df["E_NLFT"].values.tolist()
         E_NLFT.append(cur_nlft)
     return E_NLFT
 
@@ -80,7 +76,7 @@ def plot_figure2(outfile, moranfiles, coalfiles, legend):
     plt.legend(legend, loc="lower right")
     plt.xlabel(r"\textit{t}")
     plt.ylabel(r"$\frac{E[A_n^M(t)] - E[A_n^C(t)]}{E[A_n^M(t)]} \times 100\%$")
-    plt.savefig(outfile, bbox_inches="tight", dpi=300)
+    plt.savefig(outfile, bbox_inches="tight")
 
 
 def plot_figure3(outfile, moranfiles, dtwffiles, N, legend):
@@ -106,16 +102,7 @@ def plot_figure3(outfile, moranfiles, dtwffiles, N, legend):
         cur_dtwf_exp = dtwf_exp[j]
         cur_moran_exp = moran_exp[j]
         error = []
-        for i in range(0, len(cur_dtwf_exp)):
-            print(
-                "%d\t%d\t%0.8f\t%0.8f"
-                % (
-                    i,
-                    incr + i * incr - 1,
-                    cur_dtwf_exp[i],
-                    cur_moran_exp[incr + i * incr - 1],
-                )
-            )
+        for i in range(0, tot):
             cur_error = (
                 cur_dtwf_exp[i] - cur_moran_exp[incr + i * incr - 1]
             ) / cur_dtwf_exp[i]
@@ -128,7 +115,7 @@ def plot_figure3(outfile, moranfiles, dtwffiles, N, legend):
         r"$\frac{E[A_n^D(t)] - E[A_n^M(t)]}{E[A_n^D(t)]} \times 100\%$"
     )  # noqa
     plt.tight_layout()
-    ax.savefig(outfile, bbox_inches="tight", dpi=300)
+    ax.savefig(outfile, bbox_inches="tight")
 
 
 def plot_figure4(outfile, moranfiles, dtwffiles, coalfiles, N, legend):
@@ -148,7 +135,7 @@ def plot_figure4(outfile, moranfiles, dtwffiles, coalfiles, N, legend):
         cur_coal_exp = coal_exp[j]
         dtwf_error = []
         moran_error = []
-        for i in range(0, len(cur_dtwf_exp)):
+        for i in range(0, tot):
             cur_dtwf_error = (
                 (cur_dtwf_exp[i] - cur_coal_exp[incr + i * incr - 1]) / cur_dtwf_exp[i]
             )  # noqa
@@ -158,14 +145,13 @@ def plot_figure4(outfile, moranfiles, dtwffiles, coalfiles, N, legend):
             )  # noqa
             dtwf_error.append(cur_dtwf_error * 100.0)
             moran_error.append(cur_moran_error * 100.0)
-            print(f"{i}\t{cur_dtwf_error}\t{cur_moran_error}")
         plt.plot(t_dtwf, dtwf_error)
         plt.plot(t_dtwf, moran_error)
     plt.ylim([min(dtwf_error) - 0.01, 0.01])
     plt.legend(legend, loc="lower right")
     plt.xlabel(r"\textit{t}")
     plt.ylabel(r"Normalized Error $(\times 100\%)$")
-    plt.savefig(outfile, bbox_inches="tight", dpi=300)
+    plt.savefig(outfile, bbox_inches="tight")
 
 
 if __name__ == "__main__":

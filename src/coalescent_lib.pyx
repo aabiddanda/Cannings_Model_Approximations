@@ -16,6 +16,7 @@ from libc.math cimport exp
 cdef precompute(int n):
     factors = [0.0] * (n+1)
     cdef double p = 1.0
+    cdef int i
     for i in range(1, n+1):
         p *= 1.0 * (n - i + 1) / (n + i - 1)
         factors[i] = (2*i - 1) * p
@@ -27,7 +28,7 @@ cdef precompute(int n):
     @param t - number of generations in the Moran model to run until
     @param N - population size history (in Moran generations)
 '''
-def computeNLFTCoalescent(n, t, N, factors=None):
+def nlft_coalescent(int n, int t, N, factors=None):
     if factors is None:
         factors = precompute(n)
     # iterating through the Moran generations
@@ -35,15 +36,15 @@ def computeNLFTCoalescent(n, t, N, factors=None):
     cdef double expectedValue = 0.
     cdef double var = 0.
     cdef int i,j
-    print("Gen\tNLFT\tVAR_NLFT")
+    print("Gen\tE_NLFT\tVAR_NLFT")
     for i in range(1,t+1):
-        expectedValue = 0.0
+        e_nlft = 0.0
         omega += 2. / (float(N[i])**2)
         for j in range(1,n+1):
-            expectedValue += exp(-1. * j * (j-1.) / 2. * omega) * factors[j]
+            e_nlft += exp(-1. * j * (j-1.) / 2. * omega) * factors[j]
             var += exp(-1. * j * (j-1.)/2. * omega) * (j**2. - j + 1.) * factors[j]
-        var -= expectedValue**2.
-        print(f"{i}\t{expectedValue}\t{var}")
+        var -= e_nlft**2.
+        print(f"{i}\t{e_nlft}\t{var}")
 
 # Equation 12 from Polanski and Kimmel (Genetics 2003)
 cdef computeV(int n):
@@ -85,7 +86,7 @@ cdef computeEj(int n, N):
 
 # Computes the first maxA entries of the normalized SFS for a sample of size n
 # Eq (8) in Polanski and Kimmel (Genetics 2003)
-def computeSFSHelper(int n, int maxA, int N):
+def computeSFSHelper(int n, int maxA, N):
     Ej = computeEj(n, N)
     V = computeV(n)
     den = sum([Ej[j] * V[j] for j in range(2,n+1)])
@@ -96,7 +97,7 @@ def computeSFSHelper(int n, int maxA, int N):
             num[b] += Ej[j] * W[j]
     return({'sfs':num , 'norm':den})
 
-def computeSFSNormalized(n, maxA, N):
+def computeSFSNormalized(int n, int maxA, N):
     sfs = computeSFSHelper(n, maxA, N)
     sfs_norm = [sfs['sfs'][i] / sfs['norm'] for i in range(maxA)]
     return(sfs_norm)
